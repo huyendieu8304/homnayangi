@@ -5,14 +5,19 @@
 
 package controller;
 
+import dal.CategoryDAO;
 import dal.IngredientDAO;
+import dal.IngredientDescriptionDAO;
+import dal.SubcategoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import model.Ingredient;
+import model.IngredientDescription;
 
 /**
  *
@@ -60,8 +65,28 @@ public class IngredientDetailServlet extends HttpServlet {
             int ingredientId = Integer.parseInt(idRaw);
             IngredientDAO ingredientdb = new IngredientDAO();
             Ingredient i = ingredientdb.getIngredientById(ingredientId);
-            
             request.setAttribute("ingredient", i);
+            
+            ArrayList<Ingredient> relatedIngredients = ingredientdb.getNIngredientsByCategoryId(i.getCategoryId(), 8);
+            request.setAttribute("relatedIngredients", relatedIngredients);
+            
+            IngredientDescriptionDAO desdb = new IngredientDescriptionDAO();
+            ArrayList<IngredientDescription> ingredientDescription = desdb.getIngredientDescriptionById(ingredientId);
+            request.setAttribute("ingredientDescriptions", ingredientDescription);
+            
+            CategoryDAO catdb = new CategoryDAO();
+            String categoryName = catdb.getCategoryNameById(i.getCategoryId());
+            request.setAttribute("categoryName", categoryName);
+            
+            //the product belongs to a subcategory
+            if (i.getSubcategoryId() != 0) {
+                SubcategoryDAO subcatdb = new SubcategoryDAO();
+                String subcategoryName = subcatdb.getSubcategoryNameById(i.getSubcategoryId());
+                request.setAttribute("subcategoryName", subcategoryName);
+            } 
+            
+            
+            
             request.getRequestDispatcher("ingredientDetail.jsp").forward(request, response);
             
         } catch (Exception e) {

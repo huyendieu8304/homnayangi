@@ -44,6 +44,7 @@ public class CategoryDAO extends DBContext {
                 + "  FROM [dbo].[Category] WHERE category_id = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 categoryName = rs.getString("category_name");

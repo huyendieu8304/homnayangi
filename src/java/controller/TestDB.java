@@ -14,9 +14,10 @@ import model.Ingredient;
 public class TestDB {
     public static void main(String[] args) {
         IngredientDAO db = new IngredientDAO();
-        Ingredient a = db.getIngredientById(1);
+        Ingredient a = db.getIngredientById(98);
         
         System.out.println(a.getIngredientName());
         System.out.println(a.getImageUrl());
+        System.out.println(a.getSubcategoryId());
     }
 }

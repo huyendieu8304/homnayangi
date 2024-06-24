@@ -4,12 +4,15 @@
  */
 package model;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 /**
  *
  * @author BKC
  */
 public class Ingredient {
-    
+
 //    [ingredient_id] [int] IDENTITY(1,1) NOT NULL,
 //	[ingredient_name] [nvarchar](100) NOT NULL,
 //	[category_id] [int] NOT NULL,
@@ -43,7 +46,7 @@ public class Ingredient {
         this.stockQuantity = stockQuantity;
         this.imageUrl = imageUrl;
     }
-        
+
     //full field constructor    
     public Ingredient(int ingredientId, String ingredientName, int categoryId, int subcategoryId, String unit, float quantityPerUnit, float price, int stockQuantity, String imageUrl) {
         this.ingredientId = ingredientId;
@@ -101,12 +104,23 @@ public class Ingredient {
         return quantityPerUnit;
     }
 
+    public String getQuantityPerUnitFormatted() {
+        DecimalFormat decimalFormat = new DecimalFormat("#.##"); // # là số tùy chọn, .## là số sau dấu thập phân tùy chọn
+        return decimalFormat.format(quantityPerUnit);
+    }
+
     public void setQuantityPerUnit(float quantityPerUnit) {
         this.quantityPerUnit = quantityPerUnit;
     }
 
     public float getPrice() {
         return price;
+    }
+
+    public String getFormattedPrice() {
+        
+        DecimalFormat formatter = new DecimalFormat("##,###,###.###");
+        return formatter.format(price);
     }
 
     public void setPrice(float price) {
@@ -128,6 +142,5 @@ public class Ingredient {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    
-    
+
 }
