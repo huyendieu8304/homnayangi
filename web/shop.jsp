@@ -116,11 +116,19 @@
                                             <ul class="list-unstyled fruite-categorie">
                                                 <!-- single category start-->
                                                 <c:set var="categories" value="${requestScope.catlist}"></c:set>
+                                                <c:set var="subcategories" value="${requestScope.subcatlist}"></c:set>
                                                 <c:forEach var="cat" items="${categories}">
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
                                                             <a href="shop?categoryId=${cat.categoryId}"><i class="fas fa-apple-alt me-2"></i>${cat.categoryName}</a>
                                                         </div>
+                                                        <c:forEach var="subcat" items="${subcategories}">
+                                                            <c:if test="${subcat.getCategoryId() == cat.getCategoryId()}">
+                                                                <div class="d-flex justify-content-between fruite-name">
+                                                                    <a href="shop?subcategoryId=${subcat.getSubcategoryId()}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${subcat.getSubcategoryName()}</a>
+                                                                </div>
+                                                            </c:if>
+                                                        </c:forEach>
                                                     </li>
                                                 </c:forEach>
                                                 <!-- single category end-->
@@ -237,21 +245,21 @@
 
                                     <!-- index of product's -->
                                     <div class="col-12">
-                                    <c:set var="currenIndex" value="${requestScope.currentIndex}"></c:set>
-                                        <div class="pagination d-flex justify-content-center mt-5">
-                                        <c:if test="${currentIndex > 1}">
-                                            <a href="#" class="rounded" onclick="addParameterToCurrentUrl(event, 'index', '${(currenIndex - 1)}')">&laquo;</a>
-                                            
-                                        </c:if>
+                                        <c:set var="currenIndex" value="${requestScope.currentIndex}"></c:set>
+                                            <div class="pagination d-flex justify-content-center mt-5">
+                                            <c:if test="${currentIndex > 1}">
+                                                <a href="#" class="rounded" onclick="addParameterToCurrentUrl(event, 'index', '${(currenIndex - 1)}')">&laquo;</a>
+
+                                            </c:if>
                                             <c:forEach begin="1" end="${endIndex}" var="i">
                                                 <a href="#" class="${(currentIndex == i) ? 'active rounded' : 'rounded'}" onclick="addParameterToCurrentUrl(event, 'index', '${i}')">${i}</a>
-                                                
+
                                             </c:forEach>
                                             <!--<a href="#" class="active rounded">1</a>-->
-                                        <c:if test="${currentIndex < endIndex}">
-                                            <a href="#" class="rounded" onclick="addParameterToCurrentUrl(event, 'index', '${(currenIndex + 1)}')">&raquo;</a>
-                                            
-                                        </c:if>
+                                            <c:if test="${currentIndex < endIndex}">
+                                                <a href="#" class="rounded" onclick="addParameterToCurrentUrl(event, 'index', '${(currenIndex + 1)}')">&raquo;</a>
+
+                                            </c:if>
                                         </div>
                                     </div>
                                     <!-- index of product's end -->

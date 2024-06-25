@@ -85,7 +85,7 @@ public class IngredientDAO extends DBContext {
                     + "(SELECT ROW_NUMBER() OVER (ORDER BY [ingredient_id] ASC) AS r, * "
                     + "FROM [dbo].[Ingredient] WHERE 1 = 1 ";
             if (keyword != null && !keyword.equals("")) {
-                sql += " AND [ingredient_name] LIKE '%" + keyword + "%'";
+                sql += " AND [ingredient_name] LIKE N'%" + keyword + "%'";
             }
 
             if (cateIdRaw != null) {
@@ -281,6 +281,7 @@ public class IngredientDAO extends DBContext {
                         categoryId, subcategoryId, unit, quantityPerUnit,
                         price, stockQuantity, imageUrl);
                 list.add(i);
+                c++;
             }
         } catch (Exception e) {
             System.out.println("Having error while retrieve "

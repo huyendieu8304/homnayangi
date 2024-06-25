@@ -16,8 +16,8 @@ public class Subcategory {
     public Subcategory() {
     }
 
-    public Subcategory(int categoryId, String subcategoryName) {
-        this.categoryId = categoryId;
+    public Subcategory(int subcategoryId, String subcategoryName) {
+        this.subcategoryId = subcategoryId;
         this.subcategoryName = subcategoryName;
     }
 

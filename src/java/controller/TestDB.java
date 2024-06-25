@@ -5,8 +5,10 @@
 package controller;
 
 import dal.IngredientDAO;
+import dal.SubcategoryDAO;
 import java.util.ArrayList;
 import model.Ingredient;
+import model.Subcategory;
 
 /**
  *
@@ -20,12 +22,19 @@ public class TestDB {
 //        System.out.println(a.getIngredientName());
 //        System.out.println(a.getImageUrl());
 //        System.out.println(a.getSubcategoryId());
-        System.out.println(db.countIngredient(null, "1", null, null, null));
+//        System.out.println(db.countIngredient(null, "1", null, null, null));
     
-//        ArrayList<Ingredient> list = db.searchIngredient(null, 4, null, null, null,
-//                        1, 3);
-//        for (Ingredient x : list) {
-//            System.out.println(x.getIngredientId()+ " " + x.getCategoryId()+ " " + x.getIngredientName());
+        ArrayList<Ingredient> list = db.searchIngredient("thịt", null, null, null, null,
+                        "1", 3);
+        for (Ingredient x : list) {
+            System.out.println(x.getIngredientId()+ " " + x.getCategoryId()+ " " + x.getIngredientName());
+        }
+
+//        SubcategoryDAO subdb = new SubcategoryDAO();
+//        ArrayList<Subcategory> list = subdb.getAllSubcategory();
+//        for (Subcategory x : list) {
+//            System.out.println(x.getSubcategoryName());
+//            System.out.println(x.getCategoryId());
 //        }
     }
 }
