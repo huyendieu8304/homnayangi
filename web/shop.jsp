@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Cửa hàng</title>
-        
+
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -36,11 +36,27 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-        
+
+        <script>
+            function addParameterToCurrentUrl(event, paraName, value) {
+                // Ngăn chặn hành động mặc định của liên kết
+                event.preventDefault();
+
+                // Lấy URL hiện tại
+                let currentUrl = new URL(window.location.href);
+
+                // Cập nhật hoặc thêm parameter vào URL
+                currentUrl.searchParams.set(paraName, value);
+
+                // Chuyển hướng đến URL mới
+                window.location.href = currentUrl.toString();
+            }
+        </script>
+
     </head>
     <body>
-         <%@include file="header.jsp" %>
-        
+        <%@include file="header.jsp" %>
+
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
             <h1 class="text-center text-white display-6">Cửa hàng</h1>
@@ -51,7 +67,7 @@
             </ol> -->
         </div>
         <!-- Single Page Header End -->
-        
+
         <!-- Fruits Shop Start-->
         <div class="container-fluid fruite py-5">
             <div class="container py-5">
@@ -96,21 +112,23 @@
                                     </div>
                                     <div class="col-lg-12"> <!-- categories -->
                                         <div class="mb-3">
-                                            <h4>Categories</h4>
+                                            <h4>Danh mục</h4>
                                             <ul class="list-unstyled fruite-categorie">
                                                 <!-- single category start-->
-                                                <!--<li>
-                                                    <div class="d-flex justify-content-between fruite-name">
-                                                        <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
-                                                        <span>(3)</span>
-                                                    </div>
-                                                </li>-->
+                                                <c:set var="categories" value="${requestScope.catlist}"></c:set>
+                                                <c:forEach var="cat" items="${categories}">
+                                                    <li>
+                                                        <div class="d-flex justify-content-between fruite-name">
+                                                            <a href="shop?categoryId=${cat.categoryId}"><i class="fas fa-apple-alt me-2"></i>${cat.categoryName}</a>
+                                                        </div>
+                                                    </li>
+                                                </c:forEach>
                                                 <!-- single category end-->
-                                                
+
                                             </ul>
                                         </div>
                                     </div>
-                                    
+
                                     <!--search according price -NEED TO BE FIX-->
                                     <div class="col-lg-12"> <!-- price -->
                                         <div class="mb-3">
@@ -147,32 +165,32 @@
                                     <!-- featured products start-->
                                     <!-- <div class="col-lg-12">
                                         <h4 class="mb-3">Featured products</h4>
-                                        <!-- single featured product start -->
-                                        <!--<div class="d-flex align-items-center justify-content-start">
-                                            <div class="rounded me-4" style="width: 100px; height: 100px;">
-                                                <img src="img/featur-1.jpg" class="img-fluid rounded" alt="">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-2">Big Banana</h6>
-                                                <div class="d-flex mb-2">
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star text-secondary"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="d-flex mb-2">
-                                                    <h5 class="fw-bold me-2">2.99 $</h5>
-                                                    <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
-                                                </div>
-                                            </div>
-                                        </div>-->
-                                        <!-- single featured product end -->
-                                        <!-- button-->
-                                        <!--<div class="d-flex justify-content-center my-4">
-                                            <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
+                                    <!-- single featured product start -->
+                                    <!--<div class="d-flex align-items-center justify-content-start">
+                                        <div class="rounded me-4" style="width: 100px; height: 100px;">
+                                            <img src="img/featur-1.jpg" class="img-fluid rounded" alt="">
                                         </div>
-                                    </div> -->
+                                        <div>
+                                            <h6 class="mb-2">Big Banana</h6>
+                                            <div class="d-flex mb-2">
+                                                <i class="fa fa-star text-secondary"></i>
+                                                <i class="fa fa-star text-secondary"></i>
+                                                <i class="fa fa-star text-secondary"></i>
+                                                <i class="fa fa-star text-secondary"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="d-flex mb-2">
+                                                <h5 class="fw-bold me-2">2.99 $</h5>
+                                                <h5 class="text-danger text-decoration-line-through">4.11 $</h5>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                    <!-- single featured product end -->
+                                    <!-- button-->
+                                    <!--<div class="d-flex justify-content-center my-4">
+                                        <a href="#" class="btn border border-secondary px-4 py-3 rounded-pill text-primary w-100">Vew More</a>
+                                    </div>
+                                </div> -->
                                     <!--banner start-->    
                                     <!-- <div class="col-lg-12">
                                         <div class="position-relative">
@@ -190,34 +208,50 @@
                             <!-- products start -->
                             <div class="col-lg-9">
                                 <div class="row g-4 justify-content-center">
-                                    <!-- single products start -->
-                                    <div class="col-md-6 col-lg-6 col-xl-4">
-                                        <div class="rounded position-relative fruite-item">
-                                            <div class="fruite-img">
-                                                <img src="img/fruite-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                            </div>
-                                            <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                            <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                <h4>Grapes</h4>
-                                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                <div class="d-flex justify-content-between flex-lg-wrap">
-                                                    <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                    <c:forEach var="ingredient" items="${requestScope.list}">
+                                        <!-- single products start -->
+                                        <div class="col-md-6 col-lg-6 col-xl-4">
+                                            <div class="rounded position-relative fruite-item">
+                                                <div class="fruite-img">
+                                                    <img src="${ingredient.imageUrl}" class="img-fluid w-100 rounded-top" alt="" style="width: 500px; height: 400px">
+                                                </div>
+                                                <c:forEach var="cat" items="${categories}">
+                                                    <c:if test="${ingredient.categoryId == cat.categoryId}">
+                                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${cat.categoryName}</div>
+                                                    </c:if>
+                                                </c:forEach>
+                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                    <a href="ingredientDetail?id=${ingredient.getIngredientId()}">
+                                                        <h4>${ingredient.ingredientName}</h4>
+                                                    </a>
+                                                    <p class="text-dark fs-5 ">${ingredient.getQuantityPerUnitFormatted()} ${ingredient.getUnit()}</p>
+                                                    <div class="d-flex justify-content-between flex-lg-wrap">
+                                                        <p class="text-dark fs-5 fw-bold">${ingredient.getFormattedPrice()} đ</p>
+                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </c:forEach>
                                     <!-- single products start -->
-                                    
+
                                     <!-- index of product's -->
                                     <div class="col-12">
+                                    <c:set var="currenIndex" value="${requestScope.currentIndex}"></c:set>
                                         <div class="pagination d-flex justify-content-center mt-5">
-                                            <a href="#" class="rounded">&laquo;</a>
+                                        <c:if test="${currentIndex > 1}">
+                                            <a href="#" class="rounded" onclick="addParameterToCurrentUrl(event, 'index', '${(currenIndex - 1)}')">&laquo;</a>
+                                            
+                                        </c:if>
                                             <c:forEach begin="1" end="${endIndex}" var="i">
-                                            <a href="#" class="rounded">${i}</a>
+                                                <a href="#" class="${(currentIndex == i) ? 'active rounded' : 'rounded'}" onclick="addParameterToCurrentUrl(event, 'index', '${i}')">${i}</a>
+                                                
                                             </c:forEach>
                                             <!--<a href="#" class="active rounded">1</a>-->
-                                            <a href="#" class="rounded">&raquo;</a>
+                                        <c:if test="${currentIndex < endIndex}">
+                                            <a href="#" class="rounded" onclick="addParameterToCurrentUrl(event, 'index', '${(currenIndex + 1)}')">&raquo;</a>
+                                            
+                                        </c:if>
                                         </div>
                                     </div>
                                     <!-- index of product's end -->
@@ -231,9 +265,9 @@
             </div>
         </div>
         <!-- Fruits Shop End-->
-        
+
         <%@include file="footer.jsp" %>
-        
+
         <!-- JavaScript Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

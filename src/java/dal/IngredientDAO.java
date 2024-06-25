@@ -15,28 +15,52 @@ import java.util.ArrayList;
  */
 public class IngredientDAO extends DBContext {
 
-    public int countIngredient(String keyword, Integer cateId,
-            Integer subcateId, Float priceFrom, Float priceTo) {
+    public int countIngredient(String keyword, String cateIdRaw,
+            String subcateIdRaw, String priceFromRaw, String priceToRaw) {
         String sql = "SELECT COUNT(*) FROM [dbo].[Ingredient] WHERE 1 = 1";
 
         if (keyword != null && !keyword.equals("")) {
             sql += " AND [ingredient_name] LIKE '%" + keyword + "%'";
         }
 
-        if (cateId != null) {
-            sql += " AND [category_id] = " + cateId;
+        if (cateIdRaw != null) {
+            try {
+                int cateId = Integer.parseInt(cateIdRaw);
+                sql += " AND [category_id] = " + cateId;
+            } catch (Exception e) {
+                System.out.println("Error while parsing categoryId");
+            }
+
         }
 
-        if (subcateId != null) {
-            sql += " AND [subcategory_id] = " + subcateId;
+        if (subcateIdRaw != null) {
+            try {
+                int subcateId = Integer.parseInt(subcateIdRaw);
+                sql += " AND [subcategory_id] = " + subcateId;
+            } catch (Exception e) {
+                System.out.println("Error while parsing subcategoryId");
+            }
+
         }
 
-        if (priceFrom != null) {
-            sql += " AND [price] >= " + priceFrom;
+        if (priceFromRaw != null) {
+            try {
+                float priceFrom = Float.parseFloat(priceFromRaw);
+                sql += " AND [price] >= " + priceFrom;
+            } catch (Exception e) {
+                System.out.println("Error while parsing price from");
+            }
+
         }
 
-        if (priceTo != null) {
-            sql += " AND [price] <= " + priceTo;
+        if (priceToRaw != null) {
+            try {
+                float priceTo = Float.parseFloat(priceToRaw);
+                sql += " AND [price] <= " + priceTo;
+            } catch (Exception e) {
+                System.out.println("Error while parsing price to");
+            }
+
         }
 
         try {
@@ -52,9 +76,9 @@ public class IngredientDAO extends DBContext {
         return 0;
     }
 
-    public ArrayList<Ingredient> searchIngredient(String keyword, Integer cateId,
-            Integer subcateId, Float priceFrom, Float priceTo,
-            int index, int size) {
+    public ArrayList<Ingredient> searchIngredient(String keyword, String cateIdRaw,
+            String subcateIdRaw, String priceFromRaw, String priceToRaw,
+            String indexRaw, int size) {
         ArrayList<Ingredient> list = new ArrayList<>();
         try {
             String sql = "WITH x AS "
@@ -64,25 +88,56 @@ public class IngredientDAO extends DBContext {
                 sql += " AND [ingredient_name] LIKE '%" + keyword + "%'";
             }
 
-            if (cateId != null) {
-                sql += " AND [category_id] = " + cateId;
+            if (cateIdRaw != null) {
+                try {
+                    int cateId = Integer.parseInt(cateIdRaw);
+                    sql += " AND [category_id] = " + cateId;
+                } catch (Exception e) {
+                    System.out.println("Error while parsing categoryId");
+                }
+
             }
 
-            if (subcateId != null) {
-                sql += " AND [subcategory_id] = " + subcateId;
+            if (subcateIdRaw != null) {
+                try {
+                    int subcateId = Integer.parseInt(subcateIdRaw);
+                    sql += " AND [subcategory_id] = " + subcateId;
+                } catch (Exception e) {
+                    System.out.println("Error while parsing subcategoryId");
+                }
+
             }
 
-            if (priceFrom != null) {
-                sql += " AND [price] >= " + priceFrom;
+            if (priceFromRaw != null) {
+                try {
+                    float priceFrom = Float.parseFloat(priceFromRaw);
+                    sql += " AND [price] >= " + priceFrom;
+                } catch (Exception e) {
+                    System.out.println("Error while parsing price from");
+                }
+
             }
 
-            if (priceTo != null) {
-                sql += " AND [price] <= " + priceTo;
+            if (priceToRaw != null) {
+                try {
+                    float priceTo = Float.parseFloat(priceToRaw);
+                    sql += " AND [price] <= " + priceTo;
+                } catch (Exception e) {
+                    System.out.println("Error while parsing price to");
+                }
+
+            }
+
+            int index;
+            if (indexRaw != null) {
+                    index = Integer.parseInt(indexRaw);
+            } else {
+                index = 1;
             }
             //BETWEEN (? * ? - (? - 1)) AND (? * ?)"
             // index * pagesize - (pagesize - 1) and (index * pagesize)
             sql += ") SELECT * FROM x WHERE r BETWEEN (? * ? - (? - 1)) AND (? * ?)";
-            
+
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, index);
             st.setInt(2, size);
@@ -90,7 +145,7 @@ public class IngredientDAO extends DBContext {
             st.setInt(4, index);
             st.setInt(5, size);
             ResultSet rs = st.executeQuery();
-            while (rs.next()) {                
+            while (rs.next()) {
                 int ingredientId = rs.getInt("ingredient_id");
                 String ingredientName = rs.getString("ingredient_name");
                 int categoryId = rs.getInt("category_id");
