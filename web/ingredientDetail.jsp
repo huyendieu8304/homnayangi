@@ -29,13 +29,20 @@
         <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
         <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
 
+        <script>
+            function submitAddToCart() {
+                // Lấy phần fragment từ URL (nếu có)
+                var fragment = window.location.hash;
+                document.getElementById('previousPageFragment').value = fragment;
+                // Form sẽ tự submit khi button là type="submit"
+            }
+        </script>
     </head>
     <body>
         <%@include file="header.jsp" %>
@@ -54,8 +61,8 @@
         <!-- Single Product Start -->
         <c:set var="ingredient" value="${requestScope.ingredient}" ></c:set>
         <c:set var="ingredientDescriptions" value="${requestScope.ingredientDescriptions}" ></c:set>
-        <div class="container-fluid py-5 mt-5">
-            <div class="container py-5">
+            <div class="container-fluid py-5 mt-5">
+                <div class="container py-5">
                     <div class="row g-4 mb-5">
                         <div class="col-lg-8 col-xl-9">
                             <div class="row g-4">
@@ -80,20 +87,36 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <p class="mb-4">${ingredientDescriptions[0].getContent()}</p>
-                                <div class="input-group quantity mb-5" style="width: 100px;">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
-                                            <i class="fa fa-minus"></i>
-                                        </button>
+                                <!-- add to Cart start -->
+                                <form action="AddToCart" method="get">
+                                    <input type="hidden" id="previousPageFragment" name="previousPageFragment">
+                                    <input type="hidden" id="productId" 
+                                           name="productId" 
+                                           value="${ingredient.ingredientId}">
+                                    <div class="input-group quantity mb-5" style="width: 100px;">
+                                        <div class="input-group-btn">
+                                            <button type="button"
+                                                class="btn btn-sm btn-minus rounded-circle bg-light border" >
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm text-center border-0" 
+                                               name="quantity" value="1">
+                                        <div class="input-group-btn">
+                                            <button type="button"
+                                                class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <input type="text" class="form-control form-control-sm text-center border-0" value="1">
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                    <button type="submit"
+                                            class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
+                                            onclick="submitAddToCart()">
+                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> 
+                                        Thêm vào giỏ hàng
+                                    </button>
+                                </form>
+                                <!-- add to Cart end -->
                             </div>
 
                             <!-- ingredient description start -->
@@ -103,7 +126,7 @@
                                         <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
                                                 id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
                                                 aria-controls="nav-about" aria-selected="true">Mô tả sản phẩm</button>
-                                        
+
                                     </div>
                                 </nav>
                                 <div class="tab-content mb-5">
@@ -308,22 +331,22 @@
                         <div class="owl-carousel vegetable-carousel justify-content-center">
                         <c:forEach var="relatedIngredient" items="${relatedIngredients}">
                             <!-- a related product start-->
-                                <div class="border border-primary rounded position-relative vesitable-item">
-                                    <div class="vesitable-img">
-                                        <img src="${relatedIngredient.getImageUrl()}" class="img-fluid w-100 rounded-top" style="width: 500px; height: 400px" alt="">
-                                    </div>
-                                    <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${requestScope.categoryName}</div>
-                                    <div class="p-4 pb-0 rounded-bottom">
-                                        <a href="ingredientDetail?id=${relatedIngredient.getIngredientId()}">
-                                            <h4>${relatedIngredient.getIngredientName()}</h4>
-                                        </a>
-                                        <p class="text-dark fs-5 ">${relatedIngredient.getQuantityPerUnitFormatted()} ${relatedIngredient.getUnit()}</p>
-                                        <div class="d-flex justify-content-between flex-lg-wrap">
-                                            <p class="text-dark fs-5 fw-bold">${relatedIngredient.getFormattedPrice()} đ</p>
-                                            <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                        </div>
+                            <div class="border border-primary rounded position-relative vesitable-item">
+                                <div class="vesitable-img">
+                                    <img src="${relatedIngredient.getImageUrl()}" class="img-fluid w-100 rounded-top" style="width: 500px; height: 400px" alt="">
+                                </div>
+                                <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${requestScope.categoryName}</div>
+                                <div class="p-4 pb-0 rounded-bottom">
+                                    <a href="ingredientDetail?id=${relatedIngredient.getIngredientId()}">
+                                        <h4>${relatedIngredient.getIngredientName()}</h4>
+                                    </a>
+                                    <p class="text-dark fs-5 ">${relatedIngredient.getQuantityPerUnitFormatted()} ${relatedIngredient.getUnit()}</p>
+                                    <div class="d-flex justify-content-between flex-lg-wrap">
+                                        <p class="text-dark fs-5 fw-bold">${relatedIngredient.getFormattedPrice()} đ</p>
+                                        <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
                                     </div>
                                 </div>
+                            </div>
                             <!-- a related product end-->
                         </c:forEach>    
                     </div>
@@ -336,7 +359,7 @@
         <!-- Single Product End -->
 
         <%@include file="footer.jsp" %>
-        
+
         <!-- JavaScript Libraries -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

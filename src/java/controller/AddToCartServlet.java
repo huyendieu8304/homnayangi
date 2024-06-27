@@ -4,9 +4,7 @@
  */
 package controller;
 
-import dal.CategoryDAO;
 import dal.IngredientDAO;
-import dal.SubcategoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,15 +14,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import model.Cart;
-import model.Category;
+import model.CartItem;
 import model.Ingredient;
-import model.Subcategory;
 
 /**
  *
  * @author BKC
  */
-public class ShopServlet extends HttpServlet {
+public class AddToCartServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +40,10 @@ public class ShopServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ShopServlet</title>");
+            out.println("<title>Servlet AddToCartServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ShopServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddToCartServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,51 +61,6 @@ public class ShopServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        CategoryDAO catdb = new CategoryDAO();
-        ArrayList<Category> catlist = catdb.getAllCategory();
-        request.setAttribute("catlist", catlist);
-        
-        SubcategoryDAO subcatdb = new SubcategoryDAO();
-        ArrayList<Subcategory> subcatlist = subcatdb.getAllSubcategory();
-        request.setAttribute("subcatlist", subcatlist);
-        
-        IngredientDAO ingredientdb = new IngredientDAO();
-
-        //get index in the end of the page
-        String keyword = request.getParameter("keyword");
-        String categoryIdRaw = request.getParameter("categoryId");
-        String subcategoryIdRaw = request.getParameter("subcategoryId");
-        String priceFromRaw = request.getParameter("priceFrom");
-        String priceToRaw = request.getParameter("priceTo");
-//        int count = ingredientdb.countIngredient(null, null, null, null, null);
-        int count = ingredientdb.countIngredient(keyword, categoryIdRaw,
-                subcategoryIdRaw, priceFromRaw, priceToRaw);
-        int pageSize = 9;
-        int endPage = count / pageSize;
-        if (count % pageSize != 0) {
-            endPage++;
-        }
-        request.setAttribute("endIndex", endPage);
-
-        //get ingredients to display
-        String indexRaw = request.getParameter("index");
-        ArrayList<Ingredient> list = ingredientdb.searchIngredient(
-                keyword, categoryIdRaw, subcategoryIdRaw,
-                priceFromRaw, priceToRaw, indexRaw, pageSize);
-        request.setAttribute("list", list);
-
-        //display current index in the end of page
-        try {
-            int currentIndex;
-            if (indexRaw == null) {
-                currentIndex = 1;
-            } else {
-                currentIndex = Integer.parseInt(indexRaw);
-            }
-            request.setAttribute("currentIndex", currentIndex);
-        } catch (Exception e) {
-        }
         
 //        //information relate to cart
 //        Cookie[] cookies = request.getCookies();
@@ -119,19 +71,53 @@ public class ShopServlet extends HttpServlet {
 //            for (Cookie x : cookies) {
 //                if (x.getName().equals("cart")) {
 //                    txt += x.getValue();
-//                    
+//                    //remove the cart cookie
+//                    x.setMaxAge(0);
+//                    response.addCookie(x);
 //                }
 //            }
 //        }
-//        
+//
+//        String quantity = request.getParameter("quantity");
+//        String id = request.getParameter("id");
+//        if ((id != null) && (quantity != null)) {
+//            if (txt.isEmpty()) {
+//                txt = id + ":" + quantity;
+//            } else {
+//                txt = txt + "/" + id + ":" + quantity;
+//            }
+//        }
+//        Cookie c = new Cookie("cart", txt);
+//        c.setMaxAge(2 * 24 * 60 * 60);
+//        response.addCookie(c);
+//
+//        IngredientDAO ingredientdb = new IngredientDAO();
 //        ArrayList<Ingredient> allIngredient = ingredientdb.getAllIngredients();
 //        Cart cart = new Cart(txt, allIngredient);
+        
+//        //test
+//        for (CartItem x : cart.cartItemList) {
+//            System.out.println(x.getIngredient().getIngredientName());
+//        }
 //        
 //        int cartSize = cart.getNumberOfItemInCart();
 
 //        request.setAttribute("cartSize", cartSize);
         
-        request.getRequestDispatcher("shop.jsp").forward(request, response);
+        // get the URL from the Referer in Header
+        String referer = request.getHeader("Referer");
+        String fragment = request.getParameter("previousPageFragment");
+        
+        // If there are fragment, add to URL
+        if (referer != null && !referer.isEmpty()) {
+            if (fragment != null && !fragment.isEmpty()) {
+                referer += fragment;
+            }
+            response.sendRedirect(referer);
+        } else {
+            // if there aren't referer, redirect to home page
+            response.sendRedirect("home");
+        }
 
     }
 

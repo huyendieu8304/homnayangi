@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
@@ -28,7 +29,7 @@ public class Ingredient {
     private int subcategoryId;
     private String unit;
     private float quantityPerUnit;
-    private float price;
+    private BigDecimal price;
     private int stockQuantity;
     private String imageUrl;
 
@@ -36,7 +37,9 @@ public class Ingredient {
     }
 
     //constructor missing id 
-    public Ingredient(String ingredientName, int categoryId, int subcategoryId, String unit, float quantityPerUnit, float price, int stockQuantity, String imageUrl) {
+    public Ingredient(String ingredientName, int categoryId, int subcategoryId,
+            String unit, float quantityPerUnit, BigDecimal price, int stockQuantity,
+            String imageUrl) {
         this.ingredientName = ingredientName;
         this.categoryId = categoryId;
         this.subcategoryId = subcategoryId;
@@ -47,8 +50,17 @@ public class Ingredient {
         this.imageUrl = imageUrl;
     }
 
-    //full field constructor    
-    public Ingredient(int ingredientId, String ingredientName, int categoryId, int subcategoryId, String unit, float quantityPerUnit, float price, int stockQuantity, String imageUrl) {
+    //constructor for cart
+    public Ingredient(int ingredientId, String ingredientName, BigDecimal price, int stockQuantity, String imageUrl) {
+        this.ingredientId = ingredientId;
+        this.ingredientName = ingredientName;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.imageUrl = imageUrl;
+    }
+
+    //full field constructor
+    public Ingredient(int ingredientId, String ingredientName, int categoryId, int subcategoryId, String unit, float quantityPerUnit, BigDecimal price, int stockQuantity, String imageUrl) {
         this.ingredientId = ingredientId;
         this.ingredientName = ingredientName;
         this.categoryId = categoryId;
@@ -113,7 +125,7 @@ public class Ingredient {
         this.quantityPerUnit = quantityPerUnit;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -123,7 +135,7 @@ public class Ingredient {
         return formatter.format(price);
     }
 
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

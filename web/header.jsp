@@ -1,6 +1,7 @@
 <%-- Document : header Created on : Jun 23, 2024, 1:54:45 PM Author : BKC --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -94,7 +95,7 @@
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <span
                                     class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${requestScope.cartSize}</span>
                             </a>
                             <a href="#" class="my-auto">
                                 <i class="fas fa-user fa-2x"></i>

@@ -10,36 +10,27 @@ import java.math.BigDecimal;
  *
  * @author BKC
  */
-public class OrderDetail {
-     private int orderId;
-     private int ingredientId;
-     private int quantity;
-     private BigDecimal price;
+public class CartItem {
+    //an item in the cart
+    private Ingredient ingredient;
+    private int quantity;
+    private BigDecimal price;
 
-    public OrderDetail() {
+    public CartItem() {
     }
 
-    public OrderDetail(int orderId, int ingredientId, int quantity, BigDecimal price) {
-        this.orderId = orderId;
-        this.ingredientId = ingredientId;
+    public CartItem(Ingredient ingredient, int quantity, BigDecimal price) {
+        this.ingredient = ingredient;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public Ingredient getIngredient() {
+        return ingredient;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
-
-    public int getIngredientId() {
-        return ingredientId;
-    }
-
-    public void setIngredientId(int ingredientId) {
-        this.ingredientId = ingredientId;
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
     }
 
     public int getQuantity() {
@@ -57,7 +48,6 @@ public class OrderDetail {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
-     
-     
-     
+
+    
 }

@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.math.BigDecimal;
 import model.Ingredient;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,7 +46,7 @@ public class IngredientDAO extends DBContext {
 
         if (priceFromRaw != null) {
             try {
-                float priceFrom = Float.parseFloat(priceFromRaw);
+                BigDecimal priceFrom = new BigDecimal(priceFromRaw);
                 sql += " AND [price] >= " + priceFrom;
             } catch (Exception e) {
                 System.out.println("Error while parsing price from");
@@ -55,7 +56,7 @@ public class IngredientDAO extends DBContext {
 
         if (priceToRaw != null) {
             try {
-                float priceTo = Float.parseFloat(priceToRaw);
+                BigDecimal priceTo = new BigDecimal(priceToRaw);
                 sql += " AND [price] <= " + priceTo;
             } catch (Exception e) {
                 System.out.println("Error while parsing price to");
@@ -110,7 +111,7 @@ public class IngredientDAO extends DBContext {
 
             if (priceFromRaw != null) {
                 try {
-                    float priceFrom = Float.parseFloat(priceFromRaw);
+                    BigDecimal priceFrom = new BigDecimal(priceFromRaw);
                     sql += " AND [price] >= " + priceFrom;
                 } catch (Exception e) {
                     System.out.println("Error while parsing price from");
@@ -120,7 +121,7 @@ public class IngredientDAO extends DBContext {
 
             if (priceToRaw != null) {
                 try {
-                    float priceTo = Float.parseFloat(priceToRaw);
+                    BigDecimal priceTo = new BigDecimal(priceToRaw);
                     sql += " AND [price] <= " + priceTo;
                 } catch (Exception e) {
                     System.out.println("Error while parsing price to");
@@ -152,7 +153,7 @@ public class IngredientDAO extends DBContext {
                 int subcategoryId = rs.getInt("subcategory_id");
                 String unit = rs.getString("unit");
                 float quantityPerUnit = rs.getFloat("quantity_per_unit");
-                float price = rs.getFloat("price");
+                BigDecimal price = rs.getBigDecimal("price");
                 int stockQuantity = rs.getInt("stock_quantity");
                 String imageUrl = rs.getString("image_url");
 
@@ -192,7 +193,7 @@ public class IngredientDAO extends DBContext {
                 int subcategoryId = rs.getInt("subcategory_id");
                 String unit = rs.getString("unit");
                 float quantityPerUnit = rs.getFloat("quantity_per_unit");
-                float price = rs.getFloat("price");
+                BigDecimal price = rs.getBigDecimal("price");
                 int stockQuantity = rs.getInt("stock_quantity");
                 String imageUrl = rs.getString("image_url");
 
@@ -232,7 +233,7 @@ public class IngredientDAO extends DBContext {
                 int subcategoryId = rs.getInt("subcategory_id");
                 String unit = rs.getString("unit");
                 float quantityPerUnit = rs.getFloat("quantity_per_unit");
-                float price = rs.getFloat("price");
+                BigDecimal price = rs.getBigDecimal("price");
                 int stockQuantity = rs.getInt("stock_quantity");
                 String imageUrl = rs.getString("image_url");
 
@@ -273,7 +274,7 @@ public class IngredientDAO extends DBContext {
                 int subcategoryId = rs.getInt("subcategory_id");
                 String unit = rs.getString("unit");
                 float quantityPerUnit = rs.getFloat("quantity_per_unit");
-                float price = rs.getFloat("price");
+                BigDecimal price = rs.getBigDecimal("price");
                 int stockQuantity = rs.getInt("stock_quantity");
                 String imageUrl = rs.getString("image_url");
 
@@ -312,7 +313,7 @@ public class IngredientDAO extends DBContext {
                 int subcategoryId = rs.getInt("subcategory_id");
                 String unit = rs.getString("unit");
                 float quantityPerUnit = rs.getFloat("quantity_per_unit");
-                float price = rs.getFloat("price");
+                BigDecimal price = rs.getBigDecimal("price");
                 int stockQuantity = rs.getInt("stock_quantity");
                 String imageUrl = rs.getString("image_url");
 
@@ -347,7 +348,7 @@ public class IngredientDAO extends DBContext {
             st.setInt(3, x.getSubcategoryId());
             st.setString(4, x.getUnit());
             st.setFloat(5, x.getQuantityPerUnit());
-            st.setFloat(6, x.getPrice());
+            st.setBigDecimal(6, x.getPrice());
             st.setInt(7, x.getStockQuantity());
             st.setString(8, x.getImageUrl());
 
@@ -376,7 +377,7 @@ public class IngredientDAO extends DBContext {
             st.setInt(3, x.getSubcategoryId());
             st.setString(4, x.getUnit());
             st.setFloat(5, x.getQuantityPerUnit());
-            st.setFloat(6, x.getPrice());
+            st.setBigDecimal(6, x.getPrice());
             st.setInt(7, x.getStockQuantity());
             st.setString(8, x.getImageUrl());
             st.setInt(9, x.getIngredientId());
