@@ -35,14 +35,7 @@
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
 
-        <script>
-            function submitAddToCart() {
-                // Lấy phần fragment từ URL (nếu có)
-                var fragment = window.location.hash;
-                document.getElementById('previousPageFragment').value = fragment;
-                // Form sẽ tự submit khi button là type="submit"
-            }
-        </script>
+        
     </head>
     <body>
         <%@include file="header.jsp" %>
@@ -87,11 +80,12 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <p class="mb-4">${ingredientDescriptions[0].getContent()}</p>
+                                
                                 <!-- add to Cart start -->
                                 <form action="AddToCart" method="get">
                                     <input type="hidden" id="previousPageFragment" name="previousPageFragment">
                                     <input type="hidden" id="productId" 
-                                           name="productId" 
+                                           name="ingredientId" 
                                            value="${ingredient.ingredientId}">
                                     <div class="input-group quantity mb-5" style="width: 100px;">
                                         <div class="input-group-btn">
@@ -343,7 +337,10 @@
                                     <p class="text-dark fs-5 ">${relatedIngredient.getQuantityPerUnitFormatted()} ${relatedIngredient.getUnit()}</p>
                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                         <p class="text-dark fs-5 fw-bold">${relatedIngredient.getFormattedPrice()} đ</p>
-                                        <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                        <a href="AddToCart?quantity=1&ingredientId=${relatedIngredient.getIngredientId()}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> 
+                                            Add to cart
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -370,5 +367,14 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
+        
+        <script>
+            function submitAddToCart() {
+                // Lấy phần fragment từ URL (nếu có)
+                var fragment = window.location.hash;
+                document.getElementById('previousPageFragment').value = fragment;
+                // Form sẽ tự submit khi button là type="submit"
+            }
+        </script>
     </body>
 </html>

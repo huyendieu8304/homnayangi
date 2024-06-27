@@ -33,6 +33,8 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
 
     <body>
@@ -75,8 +77,8 @@
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.html" class="nav-item nav-link">Trang chủ</a>
-                            <a href="shop.html" class="nav-item nav-link">Cửa Hàng</a>
+                            <a href="home" class="nav-item nav-link">Trang chủ</a>
+                            <a href="shop" class="nav-item nav-link">Cửa Hàng</a>
                             <!-- <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a> -->
                             <!-- <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -91,15 +93,36 @@
                         </div>
                         <div class="d-flex m-3 me-0">
                             <!-- <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button> -->
-                            <a href="#" class="position-relative me-4 my-auto">
+                            <a href="cart" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
+                                <c:if test="${not empty sessionScope.cartSize}">
                                 <span
                                     class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${requestScope.cartSize}</span>
+                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${sessionScope.cartSize}</span>
+                                </c:if>
                             </a>
+                                    <c:set var="account" value="${sessionScope.account}"></c:set>
                             <a href="#" class="my-auto">
                                 <i class="fas fa-user fa-2x"></i>
+                                <span>${account.username}</span>
+                                
                             </a>
+                            <!-- only show logout if user has login yet -->
+                            <c:if test="${empty sessionScope.account}">       
+                            <a href="logout" class="my-auto" style="margin-left: 20px">
+                                <i class="fa-2x fa-solid fa-right-to-bracket"></i>
+                                <span>Đăng nhập</span>
+                            </a>
+                            </c:if> 
+                            
+                            <!-- only show logout if user login -->
+                            <c:if test="${not empty sessionScope.account}">       
+                            <a href="logout" class="my-auto" style="margin-left: 20px">
+                                <i class="fa-2x fa-solid fa-right-from-bracket"></i>
+                                <!--<i class="fa-2x fa-solid fa-arrow-right-from-bracket"></i>-->
+                                <span>Đăng xuất</span>
+                            </a>
+                            </c:if> 
                         </div>
                     </div>
                 </nav>

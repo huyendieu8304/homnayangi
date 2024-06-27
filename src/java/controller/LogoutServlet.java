@@ -5,26 +5,19 @@
 
 package controller;
 
-import dal.CartDAO;
-import dal.IngredientDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import model.Account;
-import model.Cart;
-import model.Ingredient;
 
 /**
  *
  * @author BKC
  */
-public class CartServlet extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -41,10 +34,10 @@ public class CartServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CartServlet</title>");  
+            out.println("<title>Servlet LogoutServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CartServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet LogoutServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,14 +54,13 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
+        HttpSession session = request.getSession(false); // Retrieve session, do not create if not exists
+        if (session != null) {
+            session.invalidate(); // Invalidate the session
+        }
         
-        CartDAO cartdb = new CartDAO();
-        ArrayList<Cart> cartList= (ArrayList<Cart>) cartdb.getCartOfAUser(account.getAccountId());
-         
-        request.setAttribute("cart", cartList);
-        request.getRequestDispatcher("cart.jsp").forward(request, response);
+        // Redirect to login page or any other appropriate page after logout
+        response.sendRedirect(request.getContextPath() + "/login.jsp");
     } 
 
     /** 
@@ -81,7 +73,7 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
+        processRequest(request, response);
     }
 
     /** 

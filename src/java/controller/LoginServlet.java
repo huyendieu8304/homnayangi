@@ -4,8 +4,8 @@
  */
 package controller;
 
+import dal.AccountDAO;
 import dal.CartDAO;
-import dal.IngredientDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,16 +14,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import model.Account;
-import model.Cart;
-import model.Ingredient;
 
 /**
  *
  * @author BKC
  */
-public class AddToCartServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +39,10 @@ public class AddToCartServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddToCartServlet</title>");
+            out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddToCartServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,42 +60,7 @@ public class AddToCartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-
-        String quantityRaw = request.getParameter("quantity");
-        String idRaw = request.getParameter("ingredientId");
-
-        //get user's cart size
-        CartDAO cartdb = new CartDAO();
-
-        try {
-            int addingQuantity = Integer.parseInt(quantityRaw);
-            int ingredientId = Integer.parseInt(idRaw);
-            
-            cartdb.addAnIngredientToCart(account.getAccountId(), ingredientId, addingQuantity);
-            
-        } catch (Exception e) {
-            System.out.println("Having error while adding to cart from servlet");
-        }
-        
-        session.setAttribute("cartSize", cartdb.countItemsInCartOfUser(account.getAccountId()));
-
-        // get the URL from the Referer in Header
-        String referer = request.getHeader("Referer");
-        String fragment = request.getParameter("previousPageFragment");
-
-        // If there are fragment, add to URL
-        if (referer != null && !referer.isEmpty()) {
-            if (fragment != null && !fragment.isEmpty()) {
-                referer += fragment;
-            }
-            response.sendRedirect(referer);
-        } else {
-            // if there aren't referer, redirect to home page
-            response.sendRedirect("home");
-        }
+        request.getRequestDispatcher("login.jsp").forward(request, response);
 
     }
 
@@ -113,7 +75,49 @@ public class AddToCartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String u = request.getParameter("username");
+        String p = request.getParameter("password");
+        String r = request.getParameter("remember");
+
+        
+        AccountDAO accountdb = new AccountDAO();
+        Account account = accountdb.getAccount(u, p);
+        System.out.println(account.getUsername());
+        HttpSession session = request.getSession();
+        //the account doesn't exist in database
+        if (account == null) {
+            //set username and password to send back, user don't have to input from the start
+            request.setAttribute("username", u);
+            request.setAttribute("password", p);
+            request.setAttribute("error", "Tên người dùng hoặc mật khẩu không hợp lệ");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        } else { //the account exist in database
+            //create 3 cookies
+            Cookie cu = new Cookie("cuser", u);
+            Cookie cp = new Cookie("cpass", p);
+            Cookie cr = new Cookie("crem", r);
+            if (r != null) { //user select remember me
+                cu.setMaxAge(60 * 60 * 24 * 7);//luu 7 ngay
+                cp.setMaxAge(60 * 60 * 24 * 7);//luu 7 ngay
+                cr.setMaxAge(60 * 60 * 24 * 7);//luu 7 ngay
+            } else {
+                cu.setMaxAge(0);//luu 7 ngay
+                cp.setMaxAge(0);//luu 7 ngay
+                cr.setMaxAge(0);//luu 7 ngay
+            }
+            //save to browser
+            response.addCookie(cu);
+            response.addCookie(cp);
+            response.addCookie(cr);
+
+            session.setAttribute("account", account);
+            
+            //get user's cart size
+            CartDAO cartdb = new CartDAO();
+            session.setAttribute("cartSize", cartdb.countItemsInCartOfUser(account.getAccountId()));
+                    
+            response.sendRedirect("home");
+        }
     }
 
     /**

@@ -57,9 +57,9 @@
             <div class="container py-5">
                 <div class="table-responsive">
                     <c:set var="cart" value="${requestScope.cart}"></c:set>
-                    <%--<c:if test="${not empty cart}">--%>
-                        <!--<p>oops! giỏ hàng trống trơn</p>-->
-                    <%--</c:if>--%>        
+                    <c:if test="${ empty cart}">
+                        <p>oops! giỏ hàng trống trơn</p>
+                    </c:if>        
                     <c:if test="${not empty cart}">
                     <table class="table">
                         <thead>

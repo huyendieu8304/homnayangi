@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.AccountDAO;
 import dal.CartDAO;
 import dal.IngredientDAO;
 import dal.SubcategoryDAO;
@@ -41,11 +42,18 @@ public class TestDB {
 //        }
 
         CartDAO cartdb = new CartDAO();
-        List<Cart> cart = cartdb.getCartOfAUser(1);
-        for (Cart x : cart) {
-            System.out.println(x.getIngredient().getIngredientId());
-            System.out.println(x.getIngredient().getIngredientName());
-            System.out.println(x.getQuantity());
-        }
+//        List<Cart> cart = cartdb.getCartOfAUser(1);
+//        for (Cart x : cart) {
+//            System.out.println(x.getIngredient().getIngredientId());
+//            System.out.println(x.getIngredient().getIngredientName());
+//            System.out.println(x.getQuantity());
+//        }
+//        System.out.println(cartdb.countItemsInCartOfUser(2));
+        
+       // cartdb.addAnIngredientToCart(1, 2, 2);
+        cartdb.addAnIngredientToCart(1, 2, 1);
+
+//        AccountDAO accountdb = new AccountDAO();
+//        System.out.println(accountdb.getAccount("user1", "a123456").getUsername());
     }
 }
