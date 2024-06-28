@@ -16,8 +16,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import model.Category;
 import model.Ingredient;
 import model.IngredientDescription;
+import model.Subcategory;
 
 /**
  *
@@ -60,6 +62,18 @@ public class IngredientDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        
+        //get category 
+        CategoryDAO catdb = new CategoryDAO();
+        ArrayList<Category> catlist = catdb.getAllCategory();
+        request.setAttribute("catlist", catlist);
+        
+        //get subcategory 
+        SubcategoryDAO subcatdb = new SubcategoryDAO();
+        ArrayList<Subcategory> subcatlist = subcatdb.getAllSubcategory();
+        request.setAttribute("subcatlist", subcatlist);
+        
+        //get the ingredient
         String idRaw = request.getParameter("id");
         try {
             int ingredientId = Integer.parseInt(idRaw);
@@ -74,18 +88,14 @@ public class IngredientDetailServlet extends HttpServlet {
             ArrayList<IngredientDescription> ingredientDescription = desdb.getIngredientDescriptionById(ingredientId);
             request.setAttribute("ingredientDescriptions", ingredientDescription);
             
-            CategoryDAO catdb = new CategoryDAO();
             String categoryName = catdb.getCategoryNameById(i.getCategoryId());
             request.setAttribute("categoryName", categoryName);
             
             //the product belongs to a subcategory
             if (i.getSubcategoryId() != 0) {
-                SubcategoryDAO subcatdb = new SubcategoryDAO();
                 String subcategoryName = subcatdb.getSubcategoryNameById(i.getSubcategoryId());
                 request.setAttribute("subcategoryName", subcategoryName);
             } 
-            
-            
             
             request.getRequestDispatcher("ingredientDetail.jsp").forward(request, response);
             

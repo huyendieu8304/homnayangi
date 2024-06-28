@@ -64,11 +64,12 @@ public class ShopServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        //get category 
         CategoryDAO catdb = new CategoryDAO();
         ArrayList<Category> catlist = catdb.getAllCategory();
         request.setAttribute("catlist", catlist);
         
+        //get subcategory 
         SubcategoryDAO subcatdb = new SubcategoryDAO();
         ArrayList<Subcategory> subcatlist = subcatdb.getAllSubcategory();
         request.setAttribute("subcatlist", subcatlist);
@@ -81,7 +82,6 @@ public class ShopServlet extends HttpServlet {
         String subcategoryIdRaw = request.getParameter("subcategoryId");
         String priceFromRaw = request.getParameter("priceFrom");
         String priceToRaw = request.getParameter("priceTo");
-//        int count = ingredientdb.countIngredient(null, null, null, null, null);
         int count = ingredientdb.countIngredient(keyword, categoryIdRaw,
                 subcategoryIdRaw, priceFromRaw, priceToRaw);
         int pageSize = 9;
@@ -110,26 +110,6 @@ public class ShopServlet extends HttpServlet {
         } catch (Exception e) {
         }
         
-//        //information relate to cart
-//        Cookie[] cookies = request.getCookies();
-//        String txt = "";
-//        //cookies existed
-//        if (cookies != null) {
-//            //iterate through all cookies
-//            for (Cookie x : cookies) {
-//                if (x.getName().equals("cart")) {
-//                    txt += x.getValue();
-//                    
-//                }
-//            }
-//        }
-//        
-//        ArrayList<Ingredient> allIngredient = ingredientdb.getAllIngredients();
-//        Cart cart = new Cart(txt, allIngredient);
-//        
-//        int cartSize = cart.getNumberOfItemInCart();
-
-//        request.setAttribute("cartSize", cartSize);
         
         request.getRequestDispatcher("shop.jsp").forward(request, response);
 

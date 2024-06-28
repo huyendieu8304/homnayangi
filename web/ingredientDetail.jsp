@@ -35,7 +35,7 @@
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
 
-        
+
     </head>
     <body>
         <%@include file="header.jsp" %>
@@ -44,8 +44,7 @@
         <div class="container-fluid page-header py-5">
             <h1 class="text-center text-white display-6">Chi tiết sản phẩm</h1>
             <ol class="breadcrumb justify-content-center mb-0">
-                <!--sửa lại link cửa hàng-->
-                <li class="breadcrumb-item"><a href="#">Cửa hàng</a></li>
+                <li class="breadcrumb-item"><a href="shop">Cửa hàng</a></li>
                 <li class="breadcrumb-item active text-white">Chi tiết sản phẩm</li>
             </ol>
         </div>
@@ -80,7 +79,7 @@
                                     <i class="fa fa-star"></i>
                                 </div>
                                 <p class="mb-4">${ingredientDescriptions[0].getContent()}</p>
-                                
+
                                 <!-- add to Cart start -->
                                 <form action="AddToCart" method="get">
                                     <input type="hidden" id="previousPageFragment" name="previousPageFragment">
@@ -90,7 +89,7 @@
                                     <div class="input-group quantity mb-5" style="width: 100px;">
                                         <div class="input-group-btn">
                                             <button type="button"
-                                                class="btn btn-sm btn-minus rounded-circle bg-light border" >
+                                                    class="btn btn-sm btn-minus rounded-circle bg-light border" >
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
@@ -98,7 +97,7 @@
                                                name="quantity" value="1">
                                         <div class="input-group-btn">
                                             <button type="button"
-                                                class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                    class="btn btn-sm btn-plus rounded-circle bg-light border">
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
@@ -107,7 +106,7 @@
                                             class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
                                             onclick="submitAddToCart()">
                                         <i class="fa fa-shopping-bag me-2 text-primary"></i> 
-                                        Thêm vào giỏ hàng
+                                        Thêm vào giỏ
                                     </button>
                                 </form>
                                 <!-- add to Cart end -->
@@ -142,42 +141,33 @@
                             <!-- side bar - category start -->
                             <div class="col-lg-12">
                                 <div class="input-group w-100 mx-auto d-flex mb-4">
-                                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
+                                    <input type="search" class="form-control p-3" placeholder="tên sản phẩm" aria-describedby="search-icon-1">
                                     <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
                                 </div>
                                 <div class="mb-4">
-                                    <h4>Categories</h4>
+                                    <h4>Danh mục</h4>
                                     <ul class="list-unstyled fruite-categorie">
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Apples</a>
-                                                <span>(3)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Oranges</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Strawbery</a>
-                                                <span>(2)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Banana</a>
-                                                <span>(8)</span>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="d-flex justify-content-between fruite-name">
-                                                <a href="#"><i class="fas fa-apple-alt me-2"></i>Pumpkin</a>
-                                                <span>(5)</span>
-                                            </div>
-                                        </li>
+                                        <!-- single category start-->
+                                        <c:set var="categories" value="${requestScope.catlist}"></c:set>
+                                        <c:set var="subcategories" value="${requestScope.subcatlist}"></c:set>
+                                        <c:forEach var="cat" items="${categories}">
+                                            <li>
+                                                <div class="d-flex justify-content-between fruite-name">
+                                                    <a href="shop?categoryId=${cat.categoryId}"><i class="fas fa-apple-alt me-2"></i>${cat.categoryName}</a>
+                                                </div>
+                                                <c:forEach var="subcat" items="${subcategories}">
+                                                    <c:if test="${subcat.getCategoryId() == cat.getCategoryId()}">
+                                                        <div class="d-flex justify-content-between fruite-name">
+                                                            <a href="shop?subcategoryId=${subcat.getSubcategoryId()}">
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                                                ${subcat.getSubcategoryName()}
+                                                            </a>
+                                                        </div>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </li>
+                                        </c:forEach>
+                                        <!-- single category end-->
                                     </ul>
                                 </div>
                             </div>
@@ -339,7 +329,7 @@
                                         <p class="text-dark fs-5 fw-bold">${relatedIngredient.getFormattedPrice()} đ</p>
                                         <a href="AddToCart?quantity=1&ingredientId=${relatedIngredient.getIngredientId()}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
                                             <i class="fa fa-shopping-bag me-2 text-primary"></i> 
-                                            Add to cart
+                                            Thêm vào giỏ
                                         </a>
                                     </div>
                                 </div>
@@ -367,14 +357,14 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
-        
+
         <script>
-            function submitAddToCart() {
-                // Lấy phần fragment từ URL (nếu có)
-                var fragment = window.location.hash;
-                document.getElementById('previousPageFragment').value = fragment;
-                // Form sẽ tự submit khi button là type="submit"
-            }
+                                                function submitAddToCart() {
+                                                    // Lấy phần fragment từ URL (nếu có)
+                                                    var fragment = window.location.hash;
+                                                    document.getElementById('previousPageFragment').value = fragment;
+                                                    // Form sẽ tự submit khi button là type="submit"
+                                                }
         </script>
     </body>
 </html>

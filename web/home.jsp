@@ -173,31 +173,6 @@
                         </div>
                     </div>
                     <div class="tab-content">
-<!--                        <div id="tab-1" class="tab-pane fade show p-0 active">
-                            <div class="row g-4">
-                                <div class="col-lg-12">
-                                    <div class="row g-4">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="img/fruite-item-5.jpg" class="img-fluid w-100 rounded-top" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Fruits</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <h4>Grapes</h4>
-                                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod te incididunt</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold mb-0">$4.99 / kg</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
                         <div id="tab-2" class="tab-pane fade show p-0 active">
                             <div class="row g-4">
                                 <div class="col-lg-12">
@@ -207,9 +182,11 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
-                                                    <img src="${vegie.imageUrl}" class="img-fluid w-100 rounded-top" style="width: 500px; height: 300px" alt="">
+                                                    <img src="${vegie.imageUrl}" class="img-fluid w-100 rounded-top" 
+                                                         style="width: 500px; height: 300px" alt="">
                                                 </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Rau củ</div>
+                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                                     style="top: 10px; left: 10px;">Rau củ</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                     <a href="ingredientDetail?id=${ingredient.getIngredientId()}">
                                                         <h4>${vegie.ingredientName}</h4>
@@ -217,7 +194,11 @@
                                                     <p class="text-dark fs-5 ">${vegie.getQuantityPerUnitFormatted()} ${vegie.getUnit()}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold">${vegie.getFormattedPrice()} đ</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                        <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" 
+                                                           class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> 
+                                                            Thêm vào giỏ
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -246,7 +227,9 @@
                                                     <p class="text-dark fs-5 ">${fruit.getQuantityPerUnitFormatted()} ${fruit.getUnit()}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold">${fruit.getFormattedPrice()} đ</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                        <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> 
+                                                            Thêm vào giỏ</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -275,7 +258,11 @@
                                                     <p class="text-dark fs-5 ">${meat.getQuantityPerUnitFormatted()} ${meat.getUnit()}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold">${meat.getFormattedPrice()} đ</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                        <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" 
+                                                           class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> 
+                                                            Thêm vào giỏ
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -305,7 +292,9 @@
                                                     <p class="text-dark fs-5 ">${vegie.getQuantityPerUnitFormatted()} ${vegie.getUnit()}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold">${vegie.getFormattedPrice()} đ</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                        <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                            Thêm vào giỏ</a>
                                                     </div>
                                                 </div>
                                             </div>

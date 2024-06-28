@@ -60,11 +60,10 @@
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
             <h1 class="text-center text-white display-6">Cửa hàng</h1>
-            <!-- <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item active text-white">Shop</li>
-            </ol> -->
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="home">Trang chủ</a></li>
+                <li class="breadcrumb-item active text-white">Cửa hàng</li>
+            </ol>
         </div>
         <!-- Single Page Header End -->
 
@@ -74,29 +73,6 @@
                 <h1 class="mb-4">Cửa hàng thực phẩm</h1>
                 <div class="row g-4">
                     <div class="col-lg-12">
-                        <!-- search and sort -->
-                        <!-- <div class="row g-4">
-                            <div class="col-xl-3">
-                                <div class="input-group w-100 mx-auto d-flex">
-                                    <input type="search" class="form-control p-3" placeholder="tên sản phẩm" aria-describedby="search-icon-1">
-                                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                                </div>
-                            </div>
-                            <div class="col-6"></div>
-                            <div class="col-xl-3">
-                                <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                                    <label for="fruits">Default Sorting:</label>
-                                    <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" form="fruitform">
-                                        <option value="volvo">Nothing</option>
-                                        <option value="saab">Popularity</option>
-                                        <option value="opel">Organic</option>
-                                        <option value="audi">Fantastic</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div> -->
-                        <!-- search and sort -->
-
                         <!-- main part -->
                         <div class="row g-4">
                             <!-- side bar start -->
@@ -125,7 +101,10 @@
                                                         <c:forEach var="subcat" items="${subcategories}">
                                                             <c:if test="${subcat.getCategoryId() == cat.getCategoryId()}">
                                                                 <div class="d-flex justify-content-between fruite-name">
-                                                                    <a href="shop?subcategoryId=${subcat.getSubcategoryId()}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${subcat.getSubcategoryName()}</a>
+                                                                    <a href="shop?subcategoryId=${subcat.getSubcategoryId()}">
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                                                        ${subcat.getSubcategoryName()}
+                                                                    </a>
                                                                 </div>
                                                             </c:if>
                                                         </c:forEach>
@@ -235,7 +214,11 @@
                                                     <p class="text-dark fs-5 ">${ingredient.getQuantityPerUnitFormatted()} ${ingredient.getUnit()}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold">${ingredient.getFormattedPrice()} đ</p>
-                                                        <a href="#" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                                        <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" 
+                                                            class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                            Thêm vào giỏ
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -255,7 +238,6 @@
                                                 <a href="#" class="${(currentIndex == i) ? 'active rounded' : 'rounded'}" onclick="addParameterToCurrentUrl(event, 'index', '${i}')">${i}</a>
 
                                             </c:forEach>
-                                            <!--<a href="#" class="active rounded">1</a>-->
                                             <c:if test="${currentIndex < endIndex}">
                                                 <a href="#" class="rounded" onclick="addParameterToCurrentUrl(event, 'index', '${(currenIndex + 1)}')">&raquo;</a>
 
