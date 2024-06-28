@@ -22,8 +22,8 @@ public class CartDAO extends DBContext {
     public List<Cart> getCartOfAUser(int accountId) {
         ArrayList<Cart> userCart = new ArrayList<>();
         String sql = "SELECT i.[ingredient_id] ,[quantity],"
-                + "      i.ingredient_name, i.price, i.stock_quantity,"
-                + "      i.image_url\n"
+                + "      i.ingredient_name, i.[unit], i.[quantity_per_unit],\n"
+                + "      i.price, i.stock_quantity, i.image_url\n"
                 + "  FROM [dbo].[Cart] c INNER JOIN [dbo].[Ingredient] i\n"
                 + "       ON c.ingredient_id = i.ingredient_id"
                 + " WHERE [account_id] = ?";
@@ -33,13 +33,16 @@ public class CartDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int quantity = rs.getInt("quantity");
-
+                
                 int ingredientId = rs.getInt("ingredient_id");
                 String ingredientName = rs.getString("ingredient_name");
+                String unit = rs.getString("unit");
+                float quantityPerUnit = rs.getFloat("quantity_per_unit");
                 BigDecimal price = rs.getBigDecimal("price");
                 int stockQuantity = rs.getInt("stock_quantity");
                 String imageUrl = rs.getString("image_url");
-                Ingredient i = new Ingredient(ingredientId, ingredientName, price, stockQuantity, imageUrl);
+                Ingredient i = new Ingredient(ingredientId, ingredientName, unit,
+                        quantityPerUnit, price, stockQuantity, imageUrl);
 
                 Cart c = new Cart(accountId, i, quantity);
                 userCart.add(c);

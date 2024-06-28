@@ -188,13 +188,13 @@
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
                                                      style="top: 10px; left: 10px;">Rau củ</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <a href="ingredientDetail?id=${ingredient.getIngredientId()}">
+                                                    <a href="ingredientDetail?id=${vegie.getIngredientId()}">
                                                         <h4>${vegie.ingredientName}</h4>
                                                     </a>
                                                     <p class="text-dark fs-5 ">${vegie.getQuantityPerUnitFormatted()} ${vegie.getUnit()}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold">${vegie.getFormattedPrice()} đ</p>
-                                                        <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" 
+                                                        <a href="AddToCart?quantity=1&ingredientId=${vegie.getIngredientId()}" 
                                                            class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
                                                             <i class="fa fa-shopping-bag me-2 text-primary"></i> 
                                                             Thêm vào giỏ
@@ -221,13 +221,13 @@
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Rau củ</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <a href="ingredientDetail?id=${ingredient.getIngredientId()}">
+                                                    <a href="ingredientDetail?id=${fruit.getIngredientId()}">
                                                         <h4>${fruit.ingredientName}</h4>
                                                     </a>
                                                     <p class="text-dark fs-5 ">${fruit.getQuantityPerUnitFormatted()} ${fruit.getUnit()}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold">${fruit.getFormattedPrice()} đ</p>
-                                                        <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                        <a href="AddToCart?quantity=1&ingredientId=${fruit.getIngredientId()}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
                                                             <i class="fa fa-shopping-bag me-2 text-primary"></i> 
                                                             Thêm vào giỏ</a>
                                                     </div>
@@ -252,13 +252,13 @@
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Rau củ</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <a href="ingredientDetail?id=${ingredient.getIngredientId()}">
+                                                    <a href="ingredientDetail?id=${meat.getIngredientId()}">
                                                         <h4>${meat.ingredientName}</h4>
                                                     </a>
                                                     <p class="text-dark fs-5 ">${meat.getQuantityPerUnitFormatted()} ${meat.getUnit()}</p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold">${meat.getFormattedPrice()} đ</p>
-                                                        <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" 
+                                                        <a href="AddToCart?quantity=1&ingredientId=${meat.getIngredientId()}" 
                                                            class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
                                                             <i class="fa fa-shopping-bag me-2 text-primary"></i> 
                                                             Thêm vào giỏ

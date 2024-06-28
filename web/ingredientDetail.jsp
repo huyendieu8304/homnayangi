@@ -69,7 +69,11 @@
                             <div class="col-lg-6">
                                 <h4 class="fw-bold mb-3">${ingredient.getIngredientName()}</h4>
                                 <p class="mb-3">${ingredient.getQuantityPerUnitFormatted()} ${ingredient.getUnit()}</p>
-                                <p class="mb-3">Danh mục: ${requestScope.categoryName}&#92; ${requestScope.subcategoryName}</p>
+                                <p class="mb-3">Danh mục: ${requestScope.categoryName}
+                                    <c:if test="not empty ${requestScope.subcategoryName}">
+                                        &#92; ${requestScope.subcategoryName}
+                                    </c:if>
+                                </p>
                                 <h5 class="fw-bold mb-3">${ingredient.getFormattedPrice()} đ</h5>
                                 <div class="d-flex mb-4">
                                     <i class="fa fa-star text-secondary"></i>
@@ -86,17 +90,19 @@
                                     <input type="hidden" id="productId" 
                                            name="ingredientId" 
                                            value="${ingredient.ingredientId}">
+                                    <p class="mb-3">Còn ${ingredient.getStockQuantity()} sản phẩm trong kho</p>
                                     <div class="input-group quantity mb-5" style="width: 100px;">
                                         <div class="input-group-btn">
-                                            <button type="button"
+                                            <button type="button" id="btnMinus"
                                                     class="btn btn-sm btn-minus rounded-circle bg-light border" >
                                                 <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
                                         <input type="text" class="form-control form-control-sm text-center border-0" 
-                                               name="quantity" value="1">
+                                               name="quantity" id="quantity" value="1" 
+                                               min="1" max="${ingredient.getStockQuantity()}">
                                         <div class="input-group-btn">
-                                            <button type="button"
+                                            <button type="button" id="btnPlus"
                                                     class="btn btn-sm btn-plus rounded-circle bg-light border">
                                                 <i class="fa fa-plus"></i>
                                             </button>
@@ -110,6 +116,8 @@
                                     </button>
                                 </form>
                                 <!-- add to Cart end -->
+
+
                             </div>
 
                             <!-- ingredient description start -->
@@ -359,12 +367,66 @@
         <script src="js/main.js"></script>
 
         <script>
-                                                function submitAddToCart() {
-                                                    // Lấy phần fragment từ URL (nếu có)
-                                                    var fragment = window.location.hash;
-                                                    document.getElementById('previousPageFragment').value = fragment;
-                                                    // Form sẽ tự submit khi button là type="submit"
-                                                }
+            document.addEventListener('DOMContentLoaded', function () {
+                const quantityInputs = document.querySelectorAll('input[name="quantity"]');
+                const btnMinuses = document.querySelectorAll('.btn-minus');
+                const btnPluses = document.querySelectorAll('.btn-plus');
+
+                quantityInputs.forEach((quantityInput, index) => {
+                    const stockQuantity = parseInt(quantityInput.max);
+
+                    // Initially check and hide/show buttons based on initial value
+                    checkQuantityButtons(quantityInput, btnMinuses[index], btnPluses[index]);
+
+                    btnMinuses[index].addEventListener('click', function () {
+                        decreaseQuantity(quantityInput, btnMinuses[index], btnPluses[index]);
+                    });
+
+                    btnPluses[index].addEventListener('click', function () {
+                        increaseQuantity(quantityInput, btnMinuses[index], btnPluses[index]);
+                    });
+
+                    quantityInput.addEventListener('input', function () {
+                        checkQuantityButtons(quantityInput, btnMinuses[index], btnPluses[index]);
+                    });
+                });
+
+                function decreaseQuantity(quantityInput, btnMinus, btnPlus) {
+                    let currentValue = parseInt(quantityInput.value);
+                    let minQuantity = parseInt(quantityInput.min);
+
+                    if (currentValue > minQuantity) {
+                        quantityInput.value = currentValue - 1;
+                    }
+                    checkQuantityButtons(quantityInput, btnMinus, btnPlus);
+                }
+
+                function increaseQuantity(quantityInput, btnMinus, btnPlus) {
+                    let currentValue = parseInt(quantityInput.value);
+                    let maxQuantity = parseInt(quantityInput.max);
+
+                    if (currentValue < maxQuantity) {
+                        quantityInput.value = currentValue + 1;
+                    }
+                    checkQuantityButtons(quantityInput, btnMinus, btnPlus);
+                }
+
+                function checkQuantityButtons(quantityInput, btnMinus, btnPlus) {
+                    let currentValue = parseInt(quantityInput.value);
+                    let minQuantity = parseInt(quantityInput.min);
+                    let maxQuantity = parseInt(quantityInput.max);
+
+                    btnMinus.disabled = currentValue <= minQuantity;
+                    btnPlus.disabled = currentValue >= maxQuantity;
+                }
+
+                function submitAddToCart() {
+                    var fragment = window.location.hash;
+                    document.getElementById('previousPageFragment').value = fragment;
+                }
+            });
+
         </script>
+
     </body>
 </html>

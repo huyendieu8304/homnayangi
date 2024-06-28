@@ -51,9 +51,11 @@ public class Ingredient {
     }
 
     //constructor for cart
-    public Ingredient(int ingredientId, String ingredientName, BigDecimal price, int stockQuantity, String imageUrl) {
+    public Ingredient(int ingredientId, String ingredientName, String unit, float quantityPerUnit, BigDecimal price, int stockQuantity, String imageUrl) {
         this.ingredientId = ingredientId;
         this.ingredientName = ingredientName;
+        this.unit = unit;
+        this.quantityPerUnit = quantityPerUnit;
         this.price = price;
         this.stockQuantity = stockQuantity;
         this.imageUrl = imageUrl;

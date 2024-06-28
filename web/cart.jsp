@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Giỏ hàng</title>
-        
+
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -36,11 +36,11 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-        
+
     </head>
     <body>
         <%@include file="header.jsp" %>
-        
+
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
             <h1 class="text-center text-white display-6">Giỏ hàng</h1>
@@ -51,8 +51,8 @@
             </ol>
         </div>
         <!-- Single Page Header End -->
-        
-         <!-- Cart Page Start -->
+
+        <!-- Cart Page Start -->
         <div class="container-fluid py-5">
             <div class="container py-5">
                 <div class="table-responsive">
@@ -61,62 +61,115 @@
                         <p>oops! giỏ hàng trống trơn</p>
                     </c:if>        
                     <c:if test="${not empty cart}">
-                    <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">Sản phẩm</th>
-                            <th scope="col">Tên</th>
-                            <th scope="col">Giá</th>
-                            <th scope="col">Số lượng</th>
-                            <!--<th scope="col">Total</th>-->
-                            <th scope="col">Thêm vào đơn hàng</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                            
-                            <c:forEach var="cartItem" items="${cart}">
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center">
-                                        <img src="img/vegetable-item-3.png" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
-                                    </div>
-                                </th>
-                                <td>
-                                    <p class="mb-0 mt-4">${cartItem.getIngredient().getIngredientName()}</p>
-                                </td>
-                                <td>
-                                    <p class="mb-0 mt-4"><fmt:formatNumber value="${cartItem.ingredient.price}" pattern="#,###"></fmt:formatNumber></p>
-                                </td>
-                                <!-- increase decrease quantity in cart start -->
-                                <td>
-                                    <div class="input-group quantity mt-4" style="width: 100px;">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border" >
-                                            <i class="fa fa-minus"></i>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Đặt hàng</th>
+                                    <th scope="col">Sản phẩm</th>
+                                    <th scope="col">Tên</th>
+                                    <th scope="col">Giá</th>
+                                    <th scope="col">Số lượng</th>
+                                    <!--<th scope="col">Total</th>-->
+                                    <th scope="col">Xóa khỏi giỏ hàng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <c:forEach var="cartItem" items="${cart}">
+                                    <tr>
+                                        <td style="padding-left: 30px; padding-top: 40px">
+                                            <input type="checkbox" name="addToOrder"
+                                                   style="width: 20px; height: 20px;"
+                                                   >
+                                        </td>
+
+                                        <th scope="row">
+                                            <div class="d-flex align-items-center">
+                                                <img src="${cartItem.ingredient.imageUrl}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                                            </div>
+                                        </th>
+
+                                        <td>
+                                            <p class="mb-0 mt-4">${cartItem.getIngredient().getIngredientName()}
+                                                (${cartItem.getIngredient().getQuantityPerUnitFormatted()} ${cartItem.getIngredient().getUnit()})</p>
+                                            <p>Còn: ${cartItem.getIngredient().getStockQuantity()} sản phẩm</p>
+                                        </td>
+
+                                        <td>
+                                            <p class="mb-0 mt-4"><fmt:formatNumber 
+                                                    value="${cartItem.ingredient.price}"
+                                                    pattern="#,###"></fmt:formatNumber></p>
+                                            </td>
+                                            <!--increase decrease quantity in cart start -->
+                                            <td>
+                                                <form action="AddToCart" method="get">
+                                                    <input type="hidden" id="previousPageFragment" name="previousPageFragment">
+                                                    <input type="hidden" id="productId" 
+                                                           name="ingredientId" 
+                                                           value="${cartItem.ingredient.ingredientId}">
+                                                <div class="input-group quantity mb-5" style="width: 100px;">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" id="btnMinus"
+                                                                class="btn btn-sm btn-minus rounded-circle bg-light border" >
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-sm text-center border-0" 
+                                                           name="quantity" id="quantity" value="${cartItem.quantity}" 
+                                                           min="1" max="${cartItem.getIngredient().getStockQuantity()}">
+                                                    <div class="input-group-btn">
+                                                        <button type="button" id="btnPlus"
+                                                                class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <!--                                                <button type="submit"
+                                                                                                        class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary"
+                                                                                                        onclick="submitAddToCart()">
+                                                                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> 
+                                                                                                    Thêm vào giỏ
+                                                                                                </button>-->
+                                            </form>
+
+                                            <!--                                            <form action="AddToCart" method="get">
+                                                                                            <input type="hidden" id="previousPageFragment" name="previousPageFragment">
+                                                                                            <input type="hidden" id="productId" name="ingredientId" value="${cartItem.ingredient.ingredientId}">
+                                                                                            <div class="input-group quantity mb-5" style="width: 100px;">
+                                                                                                <div class="input-group-btn">
+                                                                                                    <button type="button" class="btn btn-sm btn-minus rounded-circle bg-light border" >
+                                                                                                        <i class="fa fa-minus"></i>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                                <input type="text" class="form-control form-control-sm text-center border-0" 
+                                                                                                       name="quantity" value="${cartItem.quantity}" 
+                                                                                                       min="1" max="${cartItem.getIngredient().getStockQuantity()}">
+                                                                                                <div class="input-group-btn">
+                                                                                                    <button type="button" class="btn btn-sm btn-plus rounded-circle bg-light border">
+                                                                                                        <i class="fa fa-plus"></i>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <button type="submit" class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary" onclick="submitAddToCart()">
+                                                                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào giỏ
+                                                                                            </button>
+                                                                                        </form>-->
+
+                                        </td>
+                                        <!-- increase decrease quantity in cart end -->
+                                        <!--                                <td>
+                                                                            <p class="mb-0 mt-4">2.99 $</p>
+                                                                        </td>-->
+                                        <td>
+                                            <button class="btn btn-md rounded-circle bg-light border mt-4" >
+                                                <i class="fa fa-times text-danger"></i>
                                             </button>
-                                        </div>
-                                        <input type="text" class="form-control form-control-sm text-center border-0" value="${cartItem.quantity}">
-                                        <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <!-- increase decrease quantity in cart end -->
-<!--                                <td>
-                                    <p class="mb-0 mt-4">2.99 $</p>
-                                </td>-->
-                                <td>
-                                    <button class="btn btn-md rounded-circle bg-light border mt-4" >
-                                        <i class="fa fa-times text-danger"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            </c:forEach>
-                           
-                        </tbody>
-                    </table>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+
+                            </tbody>
+                        </table>
                     </c:if>
                 </div>
                 <div class="mt-5">
@@ -152,7 +205,7 @@
             </div>
         </div>
         <!-- Cart Page End -->
-        
+
         <%@include file="footer.jsp" %>
 
         <!-- JavaScript Libraries -->
@@ -165,5 +218,68 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const quantityInputs = document.querySelectorAll('input[name="quantity"]');
+                const btnMinuses = document.querySelectorAll('.btn-minus');
+                const btnPluses = document.querySelectorAll('.btn-plus');
+
+                quantityInputs.forEach((quantityInput, index) => {
+                    const stockQuantity = parseInt(quantityInput.max);
+
+                    // Initially check and hide/show buttons based on initial value
+                    checkQuantityButtons(quantityInput, btnMinuses[index], btnPluses[index]);
+
+                    btnMinuses[index].addEventListener('click', function () {
+                        decreaseQuantity(quantityInput, btnMinuses[index], btnPluses[index]);
+                    });
+
+                    btnPluses[index].addEventListener('click', function () {
+                        increaseQuantity(quantityInput, btnMinuses[index], btnPluses[index]);
+                    });
+
+                    quantityInput.addEventListener('input', function () {
+                        checkQuantityButtons(quantityInput, btnMinuses[index], btnPluses[index]);
+                    });
+                });
+
+                function decreaseQuantity(quantityInput, btnMinus, btnPlus) {
+                    let currentValue = parseInt(quantityInput.value);
+                    let minQuantity = parseInt(quantityInput.min);
+
+                    if (currentValue > minQuantity) {
+                        quantityInput.value = currentValue - 1;
+                    }
+                    checkQuantityButtons(quantityInput, btnMinus, btnPlus);
+                }
+
+                function increaseQuantity(quantityInput, btnMinus, btnPlus) {
+                    let currentValue = parseInt(quantityInput.value);
+                    let maxQuantity = parseInt(quantityInput.max);
+
+                    if (currentValue < maxQuantity) {
+                        quantityInput.value = currentValue + 1;
+                    }
+                    checkQuantityButtons(quantityInput, btnMinus, btnPlus);
+                }
+
+                function checkQuantityButtons(quantityInput, btnMinus, btnPlus) {
+                    let currentValue = parseInt(quantityInput.value);
+                    let minQuantity = parseInt(quantityInput.min);
+                    let maxQuantity = parseInt(quantityInput.max);
+
+                    btnMinus.disabled = currentValue <= minQuantity;
+                    btnPlus.disabled = currentValue >= maxQuantity;
+                }
+
+                function submitAddToCart() {
+                    var fragment = window.location.hash;
+                    document.getElementById('previousPageFragment').value = fragment;
+                }
+            });
+
+        </script>
+
     </body>
 </html>
