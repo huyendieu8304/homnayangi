@@ -51,7 +51,8 @@ public class TestDB {
 //        System.out.println(cartdb.countItemsInCartOfUser(2));
         
        // cartdb.addAnIngredientToCart(1, 2, 2);
-        cartdb.addAnIngredientToCart(1, 2, 1);
+//        cartdb.addAnIngredientToCart(1, 2, 1);
+        cartdb.removeItemFromUserCart(1, 2);
 
 //        AccountDAO accountdb = new AccountDAO();
 //        System.out.println(accountdb.getAccount("user1", "a123456").getUsername());

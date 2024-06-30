@@ -33,7 +33,7 @@ public class CartDAO extends DBContext {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 int quantity = rs.getInt("quantity");
-                
+
                 int ingredientId = rs.getInt("ingredient_id");
                 String ingredientName = rs.getString("ingredient_name");
                 String unit = rs.getString("unit");
@@ -74,7 +74,7 @@ public class CartDAO extends DBContext {
         return 0;
     }
 
-    private int getQuantityOfAnIngredientInCart(int ingredientId, int accountId) {
+    public int getQuantityOfAnIngredientInCart(int ingredientId, int accountId) {
         String sql = "SELECT [quantity] FROM [dbo].[Cart] "
                 + "WHERE [account_id] = ? and [ingredient_id] = ?";
         try {
@@ -132,6 +132,20 @@ public class CartDAO extends DBContext {
                 System.out.println("Having error while modify quantity of an ingredient in the cart");
                 System.out.println(e);
             }
+        }
+    }
+
+    public void removeItemFromUserCart(int accountId, int ingredientId) {
+        String sql = "DELETE FROM [dbo].[Cart]\n"
+                + "      WHERE [account_id] = ? AND [ingredient_id] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, accountId);
+            st.setInt(2, ingredientId);
+            st.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error occur while remove item from cart");
+            System.out.println(e);
         }
     }
 }

@@ -395,9 +395,6 @@
                     let currentValue = parseInt(quantityInput.value);
                     let minQuantity = parseInt(quantityInput.min);
 
-                    if (currentValue > minQuantity) {
-                        quantityInput.value = currentValue - 1;
-                    }
                     checkQuantityButtons(quantityInput, btnMinus, btnPlus);
                 }
 
@@ -405,9 +402,6 @@
                     let currentValue = parseInt(quantityInput.value);
                     let maxQuantity = parseInt(quantityInput.max);
 
-                    if (currentValue < maxQuantity) {
-                        quantityInput.value = currentValue + 1;
-                    }
                     checkQuantityButtons(quantityInput, btnMinus, btnPlus);
                 }
 

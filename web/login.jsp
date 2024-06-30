@@ -99,7 +99,7 @@
                         <!-- forgot username, password -->
 
                         <div class="text-center p-t-136">
-                            <a class="txt2" href="#">
+                            <a class="txt2" href="register">
                                 Đăng ký tài khoản
 
                             </a>

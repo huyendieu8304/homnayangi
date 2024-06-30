@@ -329,6 +329,22 @@ public class IngredientDAO extends DBContext {
         return null;
     }
 
+    public int getStockQuantityOfIngredientById(int id) {
+        String sql = "SELECT [stock_quantity]\n"
+                + "  FROM [dbo].[Ingredient] WHERE ingredient_id = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("stock_quantity");
+            }
+        } catch (Exception e) {
+            System.out.println("Error occur during get stock quantity in db");
+            System.out.println(e);
+        }
+        return -1; //having error
+    }
     public void addAnIngredient(Ingredient x) {
         String sql = "INSERT INTO [dbo].[Ingredient]\n"
                 + "           ([ingredient_name]\n"

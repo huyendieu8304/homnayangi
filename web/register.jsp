@@ -14,7 +14,8 @@
         <title>Đăng kí</title>
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <!-- Include jQuery -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
         <link rel="stylesheet" type="text/css" href="css/util.css">
@@ -41,11 +42,11 @@
                         <img src="img/logo.svg" alt="">
                     </div>
 
-                    <form class="login100-form">
+                    <form class="login100-form" id="registerForm">
                         <span class="login100-form-title">
                             Đăng kí tài khoản
                         </span>
-
+                        <div class="error-message" id="errorFromServlet"></div>
                         <div class="wrap-input100 ">
                             <input class="input100" type="text" name="username" placeholder="Tên người dùng">
                             <span class="focus-input100"></span>
@@ -93,13 +94,11 @@
                         <div class="error-message"></div>
 
                         <div class="container-login100-form-btn">
-                            <button class="login100-form-btn">
-                                Đăng kí
-                            </button>
+                            <button class="login100-form-btn" type="submit">Đăng kí</button>
                         </div>
 
                         <div class="text-center p-t-136">
-                            <a class="txt2" href="#">
+                            <a class="txt2" href="login">
                                 Tôi đã có tài khoản
                             </a>
                         </div>
@@ -117,7 +116,7 @@
                     return match.toUpperCase();
                 });
             }
-            
+
             document.addEventListener('DOMContentLoaded', function () {
                 document.querySelector('.login100-form').addEventListener('submit', function (event) {
                     event.preventDefault(); // Prevent default form submission
@@ -130,7 +129,7 @@
                     // Retrieve input values
                     var username = document.querySelector('input[name="username"]').value.trim();
                     var password = document.querySelector('input[name="password"]').value.trim();
-                    var fullnameInput  = document.querySelector('input[name="fullname"]');
+                    var fullnameInput = document.querySelector('input[name="fullname"]');
                     var fullname = fullnameInput.value.trim(); // Get current value
                     var email = document.querySelector('input[name="email"]').value.trim();
                     var phonenumber = document.querySelector('input[name="phonenumber"]').value.trim();
@@ -166,21 +165,33 @@
                         passwordErrorDiv.textContent = 'Mật khẩu phải chứa ít nhất một chữ cái.';
                     }
 
-                    // Validate fullname
+                    // Validate fullname (allowing Unicode characters)
                     if (fullname === '') {
                         isValid = false;
                         fullnameErrorDiv.textContent = 'Họ và tên không được bỏ trống.';
-                    } else if (!/^[a-zA-Z\s]+$/.test(fullname)) {
+                    } else if (!/^[\p{L}\s]+$/u.test(fullname)) {
                         isValid = false;
                         fullnameErrorDiv.textContent = 'Họ và tên chỉ được chứa chữ cái và khoảng trắng.';
-                    } else if (!/[a-zA-Z]/.test(fullname)) {
-                        isValid = false;
-                        fullnameErrorDiv.textContent = 'Họ và tên phải chứa ít nhất một chữ cái.';
                     } else {
                         // Capitalize each word in fullname
                         var normalizedFullname = capitalizeWords(fullname);
                         fullnameInput.value = normalizedFullname;
                     }
+                    // Validate fullname
+//                    if (fullname === '') {
+//                        isValid = false;
+//                        fullnameErrorDiv.textContent = 'Họ và tên không được bỏ trống.';
+//                    } else if (!/^[a-zA-Z\s]+$/.test(fullname)) {
+//                        isValid = false;
+//                        fullnameErrorDiv.textContent = 'Họ và tên chỉ được chứa chữ cái và khoảng trắng.';
+//                    } else if (!/[a-zA-Z]/.test(fullname)) {
+//                        isValid = false;
+//                        fullnameErrorDiv.textContent = 'Họ và tên phải chứa ít nhất một chữ cái.';
+//                    } else {
+//                        // Capitalize each word in fullname
+//                        var normalizedFullname = capitalizeWords(fullname);
+//                        fullnameInput.value = normalizedFullname;
+//                    }
 
                     // Validate email
                     if (email === '') {
@@ -200,9 +211,31 @@
                         phonenumberErrorDiv.textContent = 'Số điện thoại phải bắt đầu bằng số 0 và gồm 10 chữ số.';
                     }
 
-                    // If valid, submit the form
+                    // If valid, proceed with AJAX
                     if (isValid) {
-                        event.target.submit();
+                        const xhttp = new XMLHttpRequest();
+                        xhttp.onload = function () {
+                            if (this.status === 200) {
+                                const responseParts = this.responseText.split('|');
+                                if (responseParts[0] === 'success') {
+                                    alert(responseParts[1]); // Hiển thị thông báo thành công
+                                    window.location.href = 'login'; // Chuyển hướng đến trang đăng nhập
+                                } else if (responseParts[0] === 'error') {
+                                    document.getElementById("errorFromServlet").textContent = responseParts[1]; // Hiển thị thông báo lỗi nếu cần
+                                }
+                            } else {
+                                console.error("Request failed with status:", this.status);
+                                document.getElementById("errorFromServlet").textContent = "Request failed.";
+                            }
+                        };
+
+                        xhttp.open("POST", "register");
+                        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                        var formData = new FormData(event.target);
+                        var params = new URLSearchParams(formData).toString();
+                        console.log(params);
+                        xhttp.send(params);
                     }
                 });
             });

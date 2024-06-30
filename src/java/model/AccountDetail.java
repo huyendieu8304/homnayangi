@@ -19,7 +19,8 @@ public class AccountDetail {
 
     public AccountDetail() {
     }
-
+    
+    //missing id
     public AccountDetail(String username, String password, String fullname, String phoneNumber, String email) {
         this.username = username;
         this.password = password;

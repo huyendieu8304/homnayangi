@@ -78,14 +78,6 @@
                             <!-- side bar start -->
                             <div class="col-lg-3">
                                 <div class="row g-4">
-                                    <div class="col-lg-12"> <!-- price -->
-                                        <div class="mb-3">
-                                            <div class="input-group w-100 mx-auto d-flex">
-                                                <input type="search" class="form-control p-3" placeholder="tên sản phẩm" aria-describedby="search-icon-1">
-                                                <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="col-lg-12"> <!-- categories -->
                                         <div class="mb-3">
                                             <h4>Danh mục</h4>
@@ -116,14 +108,6 @@
                                         </div>
                                     </div>
 
-                                    <!--search according price -NEED TO BE FIX-->
-                                    <div class="col-lg-12"> <!-- price -->
-                                        <div class="mb-3">
-                                            <h4 class="mb-2">Price</h4>
-                                            <input type="range" class="form-range w-100" id="rangeInput" name="rangeInput" min="0" max="500" value="0" oninput="amount.value=rangeInput.value">
-                                            <output id="amount" name="amount" min-velue="0" max-value="500" for="rangeInput">0</output>
-                                        </div>
-                                    </div>
                                     <!-- <div class="col-lg-12">
                                         <div class="mb-3">
                                             <h4>Additional</h4>
@@ -194,6 +178,9 @@
 
                             <!-- products start -->
                             <div class="col-lg-9">
+                                <div class="row g-4 justify-content-center">
+                                    <p>filter search</p>
+                                </div>
                                 <div class="row g-4 justify-content-center">
                                     <c:forEach var="ingredient" items="${requestScope.list}">
                                         <!-- single products start -->
