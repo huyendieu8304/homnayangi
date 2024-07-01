@@ -151,7 +151,11 @@
                     } else if (!/^[a-zA-Z]/.test(username)) {
                         isValid = false;
                         usernameErrorDiv.textContent = 'Tên người dùng phải bắt đầu bằng chữ cái.';
+                    } else if (/\s/.test(username)) {
+                        isValid = false;
+                        usernameErrorDiv.textContent = 'Tên người dùng không được chứa khoảng trắng.';
                     }
+
 
                     // Validate password
                     if (password === '') {

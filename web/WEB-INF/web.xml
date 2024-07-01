@@ -36,6 +36,14 @@
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>controller.RegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateOrderServlet</servlet-name>
+        <servlet-class>controller.CreateOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserAccountServlet</servlet-name>
+        <servlet-class>controller.UserAccountServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IngredientDetailServlet</servlet-name>
         <url-pattern>/ingredientDetail</url-pattern>
@@ -71,5 +79,13 @@
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateOrderServlet</servlet-name>
+        <url-pattern>/CreateOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserAccountServlet</servlet-name>
+        <url-pattern>/UserAccount</url-pattern>
     </servlet-mapping>
 </web-app>

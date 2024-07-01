@@ -102,21 +102,27 @@
                                 </c:if>
                             </a>
                                     <c:set var="account" value="${sessionScope.account}"></c:set>
-                            <a href="#" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                                <span>${account.username}</span>
-                                
-                            </a>
+                                    
                             <!-- only show logout if user has login yet -->
                             <c:if test="${empty sessionScope.account}">       
-                            <a href="logout" class="my-auto" style="margin-left: 20px">
+                            <a href="login" class="my-auto" style="margin-left: 20px">
                                 <i class="fa-2x fa-solid fa-right-to-bracket"></i>
                                 <span>Đăng nhập</span>
+                            </a>
+                            <a href="register" class="my-auto" style="margin-left: 20px">
+                                <i class="fa-2x fa-solid fa-user-plus"></i>
+                                <span>Đăng kí</span>
                             </a>
                             </c:if> 
                             
                             <!-- only show logout if user login -->
                             <c:if test="${not empty sessionScope.account}">       
+                            <a href="UserAccount" class="my-auto">
+                                <i class="fas fa-user fa-2x"></i>
+                                <span>${account.username}</span>
+                                
+                            </a>
+                                    
                             <a href="logout" class="my-auto" style="margin-left: 20px">
                                 <i class="fa-2x fa-solid fa-right-from-bracket"></i>
                                 <!--<i class="fa-2x fa-solid fa-arrow-right-from-bracket"></i>-->

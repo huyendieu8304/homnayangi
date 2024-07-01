@@ -24,7 +24,7 @@ public class IngredientDAO extends DBContext {
             sql += " AND [ingredient_name] LIKE '%" + keyword + "%'";
         }
 
-        if (cateIdRaw != null) {
+        if (cateIdRaw != null && !cateIdRaw.equals("")) {
             try {
                 int cateId = Integer.parseInt(cateIdRaw);
                 sql += " AND [category_id] = " + cateId;
@@ -34,7 +34,7 @@ public class IngredientDAO extends DBContext {
 
         }
 
-        if (subcateIdRaw != null) {
+        if (subcateIdRaw != null && !subcateIdRaw.equals("")) {
             try {
                 int subcateId = Integer.parseInt(subcateIdRaw);
                 sql += " AND [subcategory_id] = " + subcateId;
@@ -44,7 +44,7 @@ public class IngredientDAO extends DBContext {
 
         }
 
-        if (priceFromRaw != null) {
+        if (priceFromRaw != null && !priceFromRaw.equals("")) {
             try {
                 BigDecimal priceFrom = new BigDecimal(priceFromRaw);
                 sql += " AND [price] >= " + priceFrom;
@@ -54,7 +54,7 @@ public class IngredientDAO extends DBContext {
 
         }
 
-        if (priceToRaw != null) {
+        if (priceToRaw != null && !priceToRaw.equals("")) {
             try {
                 BigDecimal priceTo = new BigDecimal(priceToRaw);
                 sql += " AND [price] <= " + priceTo;
@@ -89,7 +89,7 @@ public class IngredientDAO extends DBContext {
                 sql += " AND [ingredient_name] LIKE N'%" + keyword + "%'";
             }
 
-            if (cateIdRaw != null) {
+            if (cateIdRaw != null && !cateIdRaw.equals("")) {
                 try {
                     int cateId = Integer.parseInt(cateIdRaw);
                     sql += " AND [category_id] = " + cateId;
@@ -99,7 +99,7 @@ public class IngredientDAO extends DBContext {
 
             }
 
-            if (subcateIdRaw != null) {
+            if (subcateIdRaw != null && !subcateIdRaw.equals("")) {
                 try {
                     int subcateId = Integer.parseInt(subcateIdRaw);
                     sql += " AND [subcategory_id] = " + subcateId;
@@ -109,7 +109,7 @@ public class IngredientDAO extends DBContext {
 
             }
 
-            if (priceFromRaw != null) {
+            if (priceFromRaw != null && !priceFromRaw.equals("")) {
                 try {
                     BigDecimal priceFrom = new BigDecimal(priceFromRaw);
                     sql += " AND [price] >= " + priceFrom;
@@ -119,7 +119,7 @@ public class IngredientDAO extends DBContext {
 
             }
 
-            if (priceToRaw != null) {
+            if (priceToRaw != null && !priceToRaw.equals("")) {
                 try {
                     BigDecimal priceTo = new BigDecimal(priceToRaw);
                     sql += " AND [price] <= " + priceTo;
@@ -131,7 +131,7 @@ public class IngredientDAO extends DBContext {
 
             int index;
             if (indexRaw != null) {
-                    index = Integer.parseInt(indexRaw);
+                index = Integer.parseInt(indexRaw);
             } else {
                 index = 1;
             }
@@ -345,6 +345,7 @@ public class IngredientDAO extends DBContext {
         }
         return -1; //having error
     }
+
     public void addAnIngredient(Ingredient x) {
         String sql = "INSERT INTO [dbo].[Ingredient]\n"
                 + "           ([ingredient_name]\n"

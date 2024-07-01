@@ -76,15 +76,76 @@
                         <!-- main part -->
                         <div class="row g-4">
                             <!-- side bar start -->
-                            <div class="col-lg-3">
-                                <div class="row g-4">
+                            <c:set var="categories" value="${requestScope.catlist}"></c:set>
+                            <c:set var="subcategories" value="${requestScope.subcatlist}"></c:set>
+                                <div class="col-lg-3">
+                                    <div class="row g-4">
+                                        <div class="col-lg-12">
+                                            <h4>Lọc</h4>
+                                            <form action="shop">
+                                                <!--                                            <div class="input-group w-100 mx-auto d-flex">
+                                                                                                <input type="search" class="form-control p-3" aria-describedby="search-icon-1">
+                                                                                                <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                                                                                            </div >-->
+                                                <div>
+                                                    <input type="text" name="keyword"
+                                                           class="input-group w-100 mx-auto d-flex p-3" 
+                                                           style="border: grey solid 1px; border-radius: 5px"
+                                                           placeholder="tên sản phẩm" >
+                                                </div>
+                                                <div >
+                                                    Danh mục: <select name="categoryId" 
+                                                                      class="input-group w-100 mx-auto d-flex p-3" 
+                                                                      style="border: grey solid 1px; border-radius: 5px"> 
+                                                        <option value="" selected="">Tất cả</option>
+                                                    <c:forEach var="cat" items="${categories}">
+                                                        <option value="${cat.categoryId}">${cat.categoryName}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+<!--                                            <div >
+                                                Danh mục con: <select id="id" name="subcategory"
+                                                                      class="input-group w-100 mx-auto d-flex p-3" 
+                                                                      style="border: grey solid 1px; border-radius: 5px">
+                                                    <option value="first">text1</option>
+                                                    <option value="second">text2</option>
+                                                    <option value="third">text3</option>
+                                                </select>
+                                            </div>-->
+                                            <div>
+                                                Giá từ: <select id="id" name="priceFrom"
+                                                             class="input-group w-100 mx-auto d-flex p-3" 
+                                                             style="border: grey solid 1px; border-radius: 5px">
+                                                    <option value=""></option>
+                                                    <option value="0">0đ</option>
+                                                    <option value="50000">50,000đ</option>
+                                                    <option value="100000">100,000đđ</option>
+                                                    <option value="150000">150,000đ</option>
+                                                    <option value="200000">200,000đ</option>
+                                                </select>
+                                            </div>
+                                            <div>
+                                                Giá đến: <select id="id" name="priceTo"
+                                                             class="input-group w-100 mx-auto d-flex p-3" 
+                                                             style="border: grey solid 1px; border-radius: 5px">
+                                                    <option value=""></option>
+                                                    <option value="50000">50,000đ</option>
+                                                    <option value="100000">100,000đđ</option>
+                                                    <option value="150000">150,000đ</option>
+                                                    <option value="200000">200,000đ</option>
+                                                </select>
+                                            </div>
+                                            <input type="submit" name="name" value="Tìm kiếm"
+                                                   class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"
+                                                   style="margin-top: 20px; align-self: center">
+                                        </form>
+                                    </div>
                                     <div class="col-lg-12"> <!-- categories -->
                                         <div class="mb-3">
                                             <h4>Danh mục</h4>
                                             <ul class="list-unstyled fruite-categorie">
                                                 <!-- single category start-->
-                                                <c:set var="categories" value="${requestScope.catlist}"></c:set>
-                                                <c:set var="subcategories" value="${requestScope.subcatlist}"></c:set>
+
                                                 <c:forEach var="cat" items="${categories}">
                                                     <li>
                                                         <div class="d-flex justify-content-between fruite-name">
@@ -178,9 +239,9 @@
 
                             <!-- products start -->
                             <div class="col-lg-9">
-                                <div class="row g-4 justify-content-center">
-                                    <p>filter search</p>
-                                </div>
+                                <!--                                <div class="row g-4 justify-content-center">
+                                                                    
+                                                                </div>-->
                                 <div class="row g-4 justify-content-center">
                                     <c:forEach var="ingredient" items="${requestScope.list}">
                                         <!-- single products start -->
@@ -202,7 +263,7 @@
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
                                                         <p class="text-dark fs-5 fw-bold">${ingredient.getFormattedPrice()} đ</p>
                                                         <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" 
-                                                            class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                           class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
                                                             <i class="fa fa-shopping-bag me-2 text-primary"></i>
                                                             Thêm vào giỏ
                                                         </a>

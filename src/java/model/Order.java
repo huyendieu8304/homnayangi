@@ -13,7 +13,7 @@ import java.util.Date;
 public class Order {
     private int orderId;
     private int accountId; 
-    private int deliveryId;
+    private String deliveryAddress;
     private Date orderDate;
     private Date shipDate;
     private String customerNote;
@@ -22,15 +22,25 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderId, int accountId, int deliveryId, Date orderDate, Date shipDate, String customerNote, String orderStatus) {
-        this.orderId = orderId;
+    public Order(int accountId, String deliveryAddress, Date orderDate, Date shipDate, String customerNote, String orderStatus) {
         this.accountId = accountId;
-        this.deliveryId = deliveryId;
+        this.deliveryAddress = deliveryAddress;
         this.orderDate = orderDate;
         this.shipDate = shipDate;
         this.customerNote = customerNote;
         this.orderStatus = orderStatus;
     }
+
+    public Order(int orderId, int accountId, String deliveryAddress, Date orderDate, Date shipDate, String customerNote, String orderStatus) {
+        this.orderId = orderId;
+        this.accountId = accountId;
+        this.deliveryAddress = deliveryAddress;
+        this.orderDate = orderDate;
+        this.shipDate = shipDate;
+        this.customerNote = customerNote;
+        this.orderStatus = orderStatus;
+    }
+
 
     public int getOrderId() {
         return orderId;
@@ -48,12 +58,12 @@ public class Order {
         this.accountId = accountId;
     }
 
-    public int getDeliveryId() {
-        return deliveryId;
+    public String getDeliveryAddress() {
+        return deliveryAddress;
     }
 
-    public void setDeliveryId(int deliveryId) {
-        this.deliveryId = deliveryId;
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public Date getOrderDate() {

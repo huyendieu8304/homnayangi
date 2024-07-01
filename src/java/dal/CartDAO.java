@@ -73,7 +73,41 @@ public class CartDAO extends DBContext {
 
         return 0;
     }
+    //get an item in user's cart
+    public Cart getCartItemsInCartOfUser(int ingredientId, int accountId) {
+        String sql = "SELECT i.[ingredient_id] ,[quantity],"
+                + "      i.ingredient_name, i.[unit], i.[quantity_per_unit],\n"
+                + "      i.price, i.stock_quantity, i.image_url\n"
+                + "  FROM [dbo].[Cart] c INNER JOIN [dbo].[Ingredient] i\n"
+                + "       ON c.ingredient_id = i.ingredient_id"
+                + " WHERE [account_id] = ? AND i.[ingredient_id] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, accountId);
+            st.setInt(2, ingredientId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int quantity = rs.getInt("quantity");
 
+                String ingredientName = rs.getString("ingredient_name");
+                String unit = rs.getString("unit");
+                float quantityPerUnit = rs.getFloat("quantity_per_unit");
+                BigDecimal price = rs.getBigDecimal("price");
+                int stockQuantity = rs.getInt("stock_quantity");
+                String imageUrl = rs.getString("image_url");
+                Ingredient i = new Ingredient(ingredientId, ingredientName, unit,
+                        quantityPerUnit, price, stockQuantity, imageUrl);
+
+                return new Cart(accountId, i, quantity);
+                
+            }
+        } catch (Exception e) {
+            System.out.println("Having error while retrive user cart to get a cart item");
+            System.out.println(e);
+        }
+        return null;
+    }
+    
     public int getQuantityOfAnIngredientInCart(int ingredientId, int accountId) {
         String sql = "SELECT [quantity] FROM [dbo].[Cart] "
                 + "WHERE [account_id] = ? and [ingredient_id] = ?";
