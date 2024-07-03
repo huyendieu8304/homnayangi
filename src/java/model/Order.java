@@ -4,36 +4,47 @@
  */
 package model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  *
  * @author BKC
  */
 public class Order {
-    private int orderId;
-    private int accountId; 
+
+    private String orderId;
+    private int accountId;
+    private String receiverFullname;
+    private String receiverPhoneNumber;
+    private String receiverEmail;
     private String deliveryAddress;
-    private Date orderDate;
-    private Date shipDate;
+    private Timestamp orderDate;
+    private Timestamp shipDate;
     private String customerNote;
     private String orderStatus;
 
     public Order() {
     }
 
-    public Order(int accountId, String deliveryAddress, Date orderDate, Date shipDate, String customerNote, String orderStatus) {
-        this.accountId = accountId;
-        this.deliveryAddress = deliveryAddress;
-        this.orderDate = orderDate;
-        this.shipDate = shipDate;
-        this.customerNote = customerNote;
-        this.orderStatus = orderStatus;
-    }
-
-    public Order(int orderId, int accountId, String deliveryAddress, Date orderDate, Date shipDate, String customerNote, String orderStatus) {
+    //for create order
+    public Order(String orderId, int accountId, String receiverFullname, String receiverPhoneNumber, String receiverEmail, String deliveryAddress, Timestamp orderDate, String customerNote, String orderStatus) {
         this.orderId = orderId;
         this.accountId = accountId;
+        this.receiverFullname = receiverFullname;
+        this.receiverPhoneNumber = receiverPhoneNumber;
+        this.receiverEmail = receiverEmail;
+        this.deliveryAddress = deliveryAddress;
+        this.orderDate = orderDate;
+        this.customerNote = customerNote;
+        this.orderStatus = orderStatus;
+    }
+
+    public Order(String orderId, int accountId, String receiverFullname, String receiverPhoneNumber, String receiverEmail, String deliveryAddress, Timestamp orderDate, Timestamp shipDate, String customerNote, String orderStatus) {
+        this.orderId = orderId;
+        this.accountId = accountId;
+        this.receiverFullname = receiverFullname;
+        this.receiverPhoneNumber = receiverPhoneNumber;
+        this.receiverEmail = receiverEmail;
         this.deliveryAddress = deliveryAddress;
         this.orderDate = orderDate;
         this.shipDate = shipDate;
@@ -41,12 +52,11 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
-
-    public int getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 
@@ -58,6 +68,30 @@ public class Order {
         this.accountId = accountId;
     }
 
+    public String getReceiverFullname() {
+        return receiverFullname;
+    }
+
+    public void setReceiverFullname(String receiverFullname) {
+        this.receiverFullname = receiverFullname;
+    }
+
+    public String getReceiverPhoneNumber() {
+        return receiverPhoneNumber;
+    }
+
+    public void setReceiverPhoneNumber(String receiverPhoneNumber) {
+        this.receiverPhoneNumber = receiverPhoneNumber;
+    }
+
+    public String getReceiverEmail() {
+        return receiverEmail;
+    }
+
+    public void setReceiverEmail(String receiverEmail) {
+        this.receiverEmail = receiverEmail;
+    }
+
     public String getDeliveryAddress() {
         return deliveryAddress;
     }
@@ -66,19 +100,19 @@ public class Order {
         this.deliveryAddress = deliveryAddress;
     }
 
-    public Date getOrderDate() {
+    public Timestamp getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(Timestamp orderDate) {
         this.orderDate = orderDate;
     }
 
-    public Date getShipDate() {
+    public Timestamp getShipDate() {
         return shipDate;
     }
 
-    public void setShipDate(Date shipDate) {
+    public void setShipDate(Timestamp shipDate) {
         this.shipDate = shipDate;
     }
 
@@ -97,6 +131,5 @@ public class Order {
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
-    
-    
+
 }

@@ -182,4 +182,20 @@ public class CartDAO extends DBContext {
             System.out.println(e);
         }
     }
+    
+    public void removeItemsFromUserCart(ArrayList<Cart> cart) {
+        for (Cart x : cart) {
+            String sql = "DELETE FROM [dbo].[Cart]\n"
+                    + "      WHERE [account_id] = ? AND [ingredient_id] = ?";
+            try {
+                PreparedStatement st = connection.prepareStatement(sql);
+                st.setInt(1, x.getAccountId());
+                st.setInt(2, x.getIngredient().getIngredientId());
+                st.executeUpdate();
+            } catch (Exception e) {
+                System.out.println("Error occur while remove item from cart");
+                System.out.println(e);
+            }
+        }
+    }
 }

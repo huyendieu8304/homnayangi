@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  * @author BKC
  */
 public class OrderDetail {
-     private int orderId;
+     private String orderId;
      private int ingredientId;
      private int quantity;
      private BigDecimal price;
@@ -19,18 +19,18 @@ public class OrderDetail {
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderId, int ingredientId, int quantity, BigDecimal price) {
+    public OrderDetail(String orderId, int ingredientId, int quantity, BigDecimal price) {
         this.orderId = orderId;
         this.ingredientId = ingredientId;
         this.quantity = quantity;
         this.price = price;
     }
 
-    public int getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

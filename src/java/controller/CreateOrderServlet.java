@@ -5,6 +5,8 @@
 package controller;
 
 import dal.CartDAO;
+import dal.OrderDAO;
+import dal.OrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,11 +14,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
+import java.sql.Timestamp;
 import model.Account;
 import model.Cart;
+import model.Order;
+import model.OrderDetail;
 
 /**
  *
@@ -69,21 +75,18 @@ public class CreateOrderServlet extends HttpServlet {
 
         CartDAO cartdb = new CartDAO();
         ArrayList<Cart> orderCart = new ArrayList<>();
-        BigDecimal sum = BigDecimal.ZERO;
         for (String x : ingredientIds) {
             try {
                 int id = Integer.parseInt(x);
                 Cart c = cartdb.getCartItemsInCartOfUser(id, account.getAccountId());
                 orderCart.add(c);
-                BigDecimal quantity = BigDecimal.valueOf(c.getQuantity());
-                sum = sum.add(c.getIngredient().getPrice().multiply(quantity));
-                System.out.println(sum);
-
             } catch (Exception e) {
             }
         }
-        request.setAttribute("order", orderCart);
-        request.setAttribute("total", sum);
+//        request.setAttribute("order", orderCart);
+        //remove order trước đó
+        session.removeAttribute("order");
+        session.setAttribute("order", orderCart);
         request.getRequestDispatcher("checkout.jsp").forward(request, response);
     }
 
@@ -98,7 +101,51 @@ public class CreateOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Account account = (Account) session.getAttribute("account");
 
+        String orderId = generateOrderID();
+        String receiverFullname = request.getParameter("receiverFullname").trim();
+        String receiverPhoneNumber = request.getParameter("receiverPhoneNumber").trim();
+        String receiverEmail = request.getParameter("receiverEmail").trim();
+        String deliveryAddress = request.getParameter("deliveryAddress").trim();
+        String customerNote = request.getParameter("customerNote").trim();
+        Date orderDate = new Date();
+        // Convert java.util.Date to java.sql.Timestamp
+        Timestamp timestamp = new Timestamp(orderDate.getTime());
+
+        if (customerNote.equals("")) {
+            customerNote = null;
+        }
+
+        Order o = new Order(orderId, account.getAccountId(),
+                receiverFullname, receiverPhoneNumber, receiverEmail,
+                deliveryAddress, timestamp, customerNote, "waiting confirm");
+
+        OrderDAO orderdb = new OrderDAO();
+        orderdb.addAnOrder(o);
+
+        ArrayList<Cart> order = (ArrayList<Cart>) session.getAttribute("order");
+        ArrayList<OrderDetail> orderDetails = new ArrayList<>();
+        for (Cart x : order) {
+            OrderDetail orderItem = new OrderDetail(orderId,
+                    x.getIngredient().getIngredientId(),
+                    x.getQuantity(), x.getIngredient().getPrice());
+            orderDetails.add(orderItem);
+        }
+        OrderDetailDAO orderDetaildb = new OrderDetailDAO();
+        orderDetaildb.addOrderDetail(orderDetails);
+
+        CartDAO cartdb = new CartDAO();
+        cartdb.removeItemsFromUserCart(order);
+
+        //get user's cart size
+        session.setAttribute("cartSize", cartdb.countItemsInCartOfUser(account.getAccountId()));
+
+    }
+
+    private String generateOrderID() {
+        return UUID.randomUUID().toString();
     }
 
     /**

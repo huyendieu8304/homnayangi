@@ -36,6 +36,12 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        
+        <style>
+            .error {
+                color: red;
+            }
+        </style>
 
     </head>
     <body>
@@ -43,125 +49,172 @@
 
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Giỏ hàng</h1>
+            <h1 class="text-center text-white display-6">Checkout</h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="home">Trang chủ</a></li>
                 <li class="breadcrumb-item"><a href="shop">Cửa hàng</a></li>
-                <li class="breadcrumb-item active text-white">Giỏ hàng</li>
+                <li class="breadcrumb-item active text-white">Đặt hàng</li>
             </ol>
         </div>
         <!-- Single Page Header End -->
-
-        <!-- Cart Page Start -->
+        <!-- Checkout Page Start -->
         <div class="container-fluid py-5">
             <div class="container py-5">
-                <h2>Thông tin đặt hàng</h2>
-                <form action="action">
-                    <table class="table">
-                        <tr>
-                            <th scope="col">Họ tên người nhận</th>
-                            <td>
-                                <input type="text" name="receiverName" id="receiverName" style="border: none" placeholder="Nhập họ và tên">
-                                <div id="receiverNameError" class="error"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Số điện thoại người nhận</th>
-                            <td>
-                                <input type="text" name="phonenumber" id="phonenumber" style="border: none" placeholder="Nhập số điện thoại">
-                                <div id="phoneNumberError" class="error"></div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="col">Địa chỉ nhận hàng</th>
-                            <td>
-                                <textarea id="receiveAddress" name="receiveAddress"
-                                          rows="5" cols="30"></textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
-            <div class="container py-5">
-                <div class="table-responsive">
-                    <c:set var="order" value="${requestScope.order}"></c:set>
-                    <c:if test="${ empty order}">
-                        <h3>oops! Bạn chưa chọn mặt hàng nào cả</h3>
-                        <h4>Hãy thêm sản phẩm vào giỏ hàng trước đã nhé!</h4>
-                        <a href="shop">Quay lại cửa hàng</a>
-                    </c:if>        
-                    <c:if test="${not empty order}">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Sản phẩm</th>
-                                    <th scope="col">Tên</th>
-                                    <th scope="col">Giá</th>
-                                    <th scope="col">Số lượng</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <c:forEach var="cartItem" items="${order}">
-                                    <tr class="cart-item">
-
-                                        <th scope="row">
-                                            <div class="d-flex align-items-center">
-                                                <img src="${cartItem.ingredient.imageUrl}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
-                                            </div>
-                                        </th>
-
-                                        <td>
-                                            <a href="ingredientDetail?id=${cartItem.getIngredient().getIngredientId()}">
-                                                <p class="mb-0 mt-4">${cartItem.getIngredient().getIngredientName()}
-                                                    (${cartItem.getIngredient().getQuantityPerUnitFormatted()} ${cartItem.getIngredient().getUnit()})</p>
-                                                <p>Còn: ${cartItem.getIngredient().getStockQuantity()} sản phẩm</p>
-                                            </a>
-                                        </td>
-
-                                        <td >
-                                            <p class="mb-0 mt-4" data-price="${cartItem.ingredient.price}">
-                                                <fmt:formatNumber value="${cartItem.ingredient.price}"
-                                                                  pattern="#,###"></fmt:formatNumber></p>
-                                            </td>
-                                            <td>
-                                                <p class="mb-0 mt-4" data-price="${cartItem.ingredient.price}">
-                                                ${cartItem.quantity}
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-
-                            </tbody>
-                        </table>
-                        <div class="row g-4">
-                            <div class="col-12">
-                                <div class="bg-light rounded">
-                                    <div class="p-4 justify-content-center" style="text-align: center">
-                                        <h1 class="display-6 mb-4">Tổng tiền: 
-                                            <span class="fw-normal" id="totalPrice">
-                                                <fmt:formatNumber value="${requestScope.total}" pattern="#,###"></fmt:formatNumber>
-                                                </span> vnđ
-                                            </h1>
-                                        </div>
-                                        <div style="text-align: center">
-                                            <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
-                                                    type="submit">Đặt hàng</button>
-                                        </div>
-                                    </div>
+                <c:set var="order" value="${sessionScope.order}"></c:set>
+                <c:if test="${ empty order}">
+                    <h3>oops! Bạn chưa chọn mặt hàng nào cả</h3>
+                    <h4>Hãy thêm sản phẩm vào giỏ hàng trước đã nhé!</h4>
+                    <a href="shop">Quay lại cửa hàng</a>
+                </c:if>        
+                <c:if test="${not empty order}">       
+                    <h1 class="mb-4">Thông tin hóa đơn</h1>
+                    <!-- Form billing detail start -->
+                    <form action="CreateOrder" method="post" onsubmit="return validateForm()">
+                        <div class="row g-5">
+                            <div class="col-md-12 col-lg-6 col-xl-7">
+                                <div class="form-item w-100">
+                                    <label class="form-label my-3">Họ và tên người nhận<sup>*</sup></label>
+                                    <input type="text" name="receiverFullname" 
+                                           id="receiverFullname" class="form-control" >
+                                    <div id="receiverFullnameError" class="error"></div>
+                                </div>
+                                <div class="form-item">
+                                    <label class="form-label my-3">Số điện thoại người nhận<sup>*</sup></label>
+                                    <input type="text" name="receiverPhoneNumber" 
+                                           id="receiverPhoneNumber" class="form-control">
+                                    <div id="receiverPhoneNumberError" class="error"></div>
+                                </div>
+                                <div class="form-item">
+                                    <label class="form-label my-3">Địa chỉ email người nhận<sup>*</sup></label>
+                                    <input type="text" name="receiverEmail" 
+                                           id="receiverEmail" class="form-control" >
+                                    <div id="receiverEmailError" class="error"></div>
+                                </div>
+                                <div class="form-item">
+                                    <label class="form-label my-3">Địa chỉ nhận hàng <sup>*</sup></label>
+                                    <input type="text" name="deliveryAddress" 
+                                           id="deliveryAddress" class="form-control"
+                                           placeholder="Tỉnh thành, Quận/Huyện, Xã/Phường,Tên đường, số nhà ...">
+                                    <div id="deliveryAddressError" class="error"></div>
+                                </div>
+                                <!--                                <div class="form-item">
+                                                                    <label class="form-label my-3">Town/City<sup>*</sup></label>
+                                                                    <input type="text" class="form-control">
+                                                                </div>
+                                                                <div class="form-item">
+                                                                    <label class="form-label my-3">Country<sup>*</sup></label>
+                                                                    <input type="text" class="form-control">
+                                                                </div>
+                                                                <div class="form-item">
+                                                                    <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
+                                                                    <input type="text" class="form-control">
+                                                                </div>
+                                
+                                                                <div class="form-check my-3">
+                                                                    <input type="checkbox" class="form-check-input" id="Account-1" name="Accounts" value="Accounts">
+                                                                    <label class="form-check-label" for="Account-1">Create an account?</label>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="form-check my-3">
+                                                                    <input class="form-check-input" type="checkbox" id="Address-1" name="Address" value="Address">
+                                                                    <label class="form-check-label" for="Address-1">Ship to a different address?</label>
+                                                                </div>-->
+                                <div class="form-item">
+                                    <label class="form-label my-3">Ghi chú</label>
+                                    <textarea name="customerNote" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Oreder Notes (Optional)"></textarea>
                                 </div>
                             </div>
-                    </c:if>
+                            <div class="col-md-12 col-lg-6 col-xl-5">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Sản phẩm</th>
+                                                <th scope="col">Tên</th>
+                                                <th scope="col">Đơn giá</th>
+                                                <th scope="col">Số lượng</th>
+                                                <th scope="col">Thành tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="cartItem" items="${order}">
+                                                <tr>
+                                                    <th scope="row">
+                                                        <div class="d-flex align-items-center mt-2">
+                                                            <img src="${cartItem.ingredient.imageUrl}" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
+                                                        </div>
+                                                    </th>
+                                                    <td class="py-5">
+                                                        <p class="mb-0 " style="margin-top: 0">${cartItem.getIngredient().getIngredientName()}(${cartItem.getIngredient().getQuantityPerUnitFormatted()} ${cartItem.getIngredient().getUnit()})</p>
+                                                    </td>
+                                                    <td class="py-5"><fmt:formatNumber value="${cartItem.ingredient.price}"
+                                                                      pattern="#,###"></fmt:formatNumber></td>
+                                                    <td class="py-5">${cartItem.quantity}</td>
+                                                    <td class="py-5">
+                                                        <span class="totalPrice">
+                                                            <fmt:formatNumber value="${cartItem.ingredient.price * cartItem.quantity}" pattern="#,###"></fmt:formatNumber>
+                                                            </span>
+                                                        </td>
+                                                </c:forEach>
 
-                </div>
-                <!--                <div class="mt-5">
-                                    <input type="text" class="border-0 border-bottom rounded me-5 py-3 mb-4" placeholder="Coupon Code">
-                                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary" type="button">Apply Coupon</button>
-                                </div>-->
-
+                                            <tr>
+                                                <th scope="row">
+                                                </th>
+                                                <td class="py-5"></td>
+                                                <td colspan="2" class="py-5">
+                                                    <p class="mb-0 text-dark py-3">Tổng tiền hàng</p>
+                                                </td>
+                                                <td class="py-5">
+                                                    <div class="py-3 border-bottom border-top">
+                                                        <p id="total" class="mb-0 text-dark"></p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                </th>
+                                                <td class="py-5"></td>
+                                                <td colspan="2" class="py-5">
+                                                    <p class="mb-0 text-dark py-3">Phí vận chuyển</p>
+                                                </td>
+                                                <td class="py-5">
+                                                    <div class="py-3 border-bottom border-top">
+                                                        <p class="mb-0 text-dark">20.000&nbsp;₫</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">
+                                                </th>
+                                                <td colspan="2" class="py-5">
+                                                    <p class="mb-0 text-dark text-uppercase py-3">TỔNG HÓA ĐƠN</p>
+                                                </td>
+                                                <td class="py-5"></td>
+                                                <td class="py-5">
+                                                    <div class="py-3 border-bottom border-top">
+                                                        <p id="totalBill" class="mb-0 text-dark"></p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
+                                    <div class="col-12">
+                                        <p class="mb-0 text-dark py-4">Thanh toán khi nhận hàng</p>
+                                    </div>
+                                </div>
+                                <div class="row g-4 text-center align-items-center justify-content-center pt-4">
+                                    <button type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Đặt hàng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </c:if> 
+                <!-- Form billing detail start -->
             </div>
         </div>
-        <!-- Cart Page End -->
+        <!-- Checkout Page End -->
 
         <%@include file="footer.jsp" %>
 
@@ -177,85 +230,113 @@
         <script src="js/main.js"></script>
 
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const quantityInputs = document.querySelectorAll('input[name="quantity"]');
-                const btnMinuses = document.querySelectorAll('.btn-minus');
-                const btnPluses = document.querySelectorAll('.btn-plus');
-                const checkboxes = document.querySelectorAll('.add-to-order-checkbox');
+                        function normalizeFullname(fullname) {
+                            // Remove leading/trailing whitespace, replace multiple spaces with a single space
+                            // and capitalize the first letter of each word.
+                            return fullname.trim()
+                                    .replace(/\s+/g, ' ')
+                                    .split(' ')
+                                    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                                    .join(' ');
+                        }
 
-                // Lắng nghe sự kiện change cho các checkbox
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener('change', updateTotalPrice);
-                });
-                quantityInputs.forEach((quantityInput, index) => {
-                    const stockQuantity = parseInt(quantityInput.max);
+                        // Function to validate the form
+                        function validateForm() {
+                            let isValid = true;
 
-                    // Initially check and hide/show buttons based on initial value
-                    checkQuantityButtons(quantityInput, btnMinuses[index], btnPluses[index]);
+                            const fullname = document.getElementById('receiverFullname').value;
+                            const email = document.getElementById('receiverEmail').value;
+                            const phoneNumber = document.getElementById('receiverPhoneNumber').value;
+                            const address = document.getElementById('deliveryAddress').value;
 
-                    btnMinuses[index].addEventListener('click', function () {
-                        decreaseQuantity(quantityInput, btnMinuses[index], btnPluses[index]);
-                    });
+                            const fullnameErrorDiv = document.getElementById('receiverFullnameError');
+                            const emailErrorDiv = document.getElementById('receiverEmailError');
+                            const phoneNumberErrorDiv = document.getElementById('receiverPhoneNumberError');
+                            const addressErrorDiv = document.getElementById('deliveryAddressError');
 
-                    btnPluses[index].addEventListener('click', function () {
-                        increaseQuantity(quantityInput, btnMinuses[index], btnPluses[index]);
-                    });
+                            // Clear previous errors
+                            fullnameErrorDiv.textContent = '';
+                            emailErrorDiv.textContent = '';
+                            phoneNumberErrorDiv.textContent = '';
+                            addressErrorDiv.textContent = '';
 
-                    quantityInput.addEventListener('input', function () {
-                        checkQuantityButtons(quantityInput, btnMinuses[index], btnPluses[index]);
-                    });
-                });
+                            // Normalize and validate fullname
+                            const normalizedFullname = normalizeFullname(fullname);
+                            document.getElementById('receiverFullname').value = normalizedFullname;
+                            if (fullname.trim() === '') {
+                                isValid = false;
+                                fullnameErrorDiv.textContent = 'Tên người nhận không được bỏ trống.';
+                            } else if (!/^[\p{L}\s]+$/u.test(normalizedFullname)) {
+                                isValid = false;
+                                fullnameErrorDiv.textContent = 'Họ và tên chỉ được chứa chữ cái và khoảng trắng.';
+                            }
 
-                function decreaseQuantity(quantityInput, btnMinus, btnPlus) {
-                    let currentValue = parseInt(quantityInput.value);
-                    let minQuantity = parseInt(quantityInput.min);
+                            // Validate email
+                            if (email.trim() === '') {
+                                isValid = false;
+                                emailErrorDiv.textContent = 'Địa chỉ email người nhận không được bỏ trống.';
+                            } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                                isValid = false;
+                                emailErrorDiv.textContent = 'Địa chỉ email không hợp lệ.';
+                            }
 
-                    checkQuantityButtons(quantityInput, btnMinus, btnPlus);
-                }
+                            // Validate phone number
+                            if (phoneNumber.trim() === '') {
+                                isValid = false;
+                                phoneNumberErrorDiv.textContent = 'Số điện thoại người nhận không được bỏ trống.';
+                            } else if (!/^0\d{9}$/.test(phoneNumber)) {
+                                isValid = false;
+                                phoneNumberErrorDiv.textContent = 'Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0.';
+                            }
 
-                function increaseQuantity(quantityInput, btnMinus, btnPlus) {
-                    let currentValue = parseInt(quantityInput.value);
-                    let maxQuantity = parseInt(quantityInput.max);
+                            // Validate address
+                            if (address.trim() === '') {
+                                isValid = false;
+                                addressErrorDiv.textContent = 'Địa chỉ nhận hàng không được bỏ trống.';
+                            }
 
-                    checkQuantityButtons(quantityInput, btnMinus, btnPlus);
-                }
+                            // Recalculate total price if form is valid
+                            if (isValid) {
+                                calculateTotalPrice();
+                            }
 
-                function checkQuantityButtons(quantityInput, btnMinus, btnPlus) {
-                    let currentValue = parseInt(quantityInput.value);
-                    let minQuantity = parseInt(quantityInput.min);
-                    let maxQuantity = parseInt(quantityInput.max);
+                            return isValid;
+                        }
 
-                    btnMinus.disabled = currentValue <= minQuantity;
-                    btnPlus.disabled = currentValue >= maxQuantity;
-                }
+                        document.addEventListener('DOMContentLoaded', function () {
+                            // JavaScript function to calculate the total price
+                            function calculateTotalPrice() {
+                                // Select all elements with class totalPrice
+                                const totalPrices = document.querySelectorAll('.totalPrice');
+                                let total = 0;
 
-                function submitAddToCart() {
-                    var fragment = window.location.hash;
-                    document.getElementById('previousPageFragment').value = fragment;
-                }
+                                // Iterate over totalPrice elements and sum their values
+                                totalPrices.forEach((priceElement) => {
+                                    // Remove any formatting to ensure only the number is parsed
+                                    const price = parseFloat(priceElement.textContent.replace(/[^\d.-]/g, ""));
+                                    if (!isNaN(price)) {
+                                        total += price;
+                                    }
+                                });
 
-                function updateTotalPrice() {
-                    let totalPrice = 0;
+                                // Format the total price to VND
+                                const formattedTotal = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(total);
 
-                    document.querySelectorAll('.add-to-order-checkbox:checked').forEach(function (checkbox) {
-                        const row = checkbox.closest('.cart-item');
-                        const priceElement = row.querySelector('[data-price]');
-                        const quantityElement = row.querySelector('[name="quantity"]');
+                                // Update the total element with the calculated total
+                                document.getElementById('total').textContent = formattedTotal;
 
-                        const price = parseFloat(priceElement.dataset.price);
-                        const quantity = parseInt(quantityElement.value, 10);
+                                total += 20000;
+                                // Format the total price to VND
+                                const formattedTotalBill = new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(total);
 
-                        totalPrice += price * quantity;
-                    });
+                                // Update the total element with the calculated total
+                                document.getElementById('totalBill').textContent = formattedTotalBill;
+                            }
 
-                    // Cập nhật tổng tiền
-                    const totalPriceElement = document.getElementById('totalPrice');
-                    totalPriceElement.innerText = totalPrice.toLocaleString('vi-VN');
-                    totalPriceElement.dataset.value = totalPrice; // Cập nhật cả thuộc tính data-value
-                }
-            });
-
-
+                            // Call the function to calculate the total price on page load
+                            calculateTotalPrice();
+                        }
+                        );
         </script>
 
     </body>
