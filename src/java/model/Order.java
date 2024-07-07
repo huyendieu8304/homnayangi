@@ -39,6 +39,17 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
+    //for updating order
+    public Order(String receiverFullname, String receiverPhoneNumber, String receiverEmail, String deliveryAddress, Timestamp shipDate, String customerNote, String orderStatus) {
+        this.receiverFullname = receiverFullname;
+        this.receiverPhoneNumber = receiverPhoneNumber;
+        this.receiverEmail = receiverEmail;
+        this.deliveryAddress = deliveryAddress;
+        this.shipDate = shipDate;
+        this.customerNote = customerNote;
+        this.orderStatus = orderStatus;
+    }
+
     public Order(String orderId, int accountId, String receiverFullname, String receiverPhoneNumber, String receiverEmail, String deliveryAddress, Timestamp orderDate, Timestamp shipDate, String customerNote, String orderStatus) {
         this.orderId = orderId;
         this.accountId = accountId;

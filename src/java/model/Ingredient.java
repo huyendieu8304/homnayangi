@@ -32,6 +32,7 @@ public class Ingredient {
     private BigDecimal price;
     private int stockQuantity;
     private String imageUrl;
+    private boolean state;
 
     public Ingredient() {
     }
@@ -61,7 +62,7 @@ public class Ingredient {
         this.imageUrl = imageUrl;
     }
 
-    //full field constructor
+    //constructor missing state
     public Ingredient(int ingredientId, String ingredientName, int categoryId, int subcategoryId, String unit, float quantityPerUnit, BigDecimal price, int stockQuantity, String imageUrl) {
         this.ingredientId = ingredientId;
         this.ingredientName = ingredientName;
@@ -73,6 +74,20 @@ public class Ingredient {
         this.stockQuantity = stockQuantity;
         this.imageUrl = imageUrl;
     }
+
+    public Ingredient(int ingredientId, String ingredientName, int categoryId, int subcategoryId, String unit, float quantityPerUnit, BigDecimal price, int stockQuantity, String imageUrl, boolean state) {
+        this.ingredientId = ingredientId;
+        this.ingredientName = ingredientName;
+        this.categoryId = categoryId;
+        this.subcategoryId = subcategoryId;
+        this.unit = unit;
+        this.quantityPerUnit = quantityPerUnit;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.imageUrl = imageUrl;
+        this.state = state;
+    }
+    
 
     public int getIngredientId() {
         return ingredientId;
@@ -155,6 +170,14 @@ public class Ingredient {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 
 }

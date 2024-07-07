@@ -82,7 +82,6 @@ public class LoginServlet extends HttpServlet {
         
         AccountDAO accountdb = new AccountDAO();
         Account account = accountdb.getAccount(u, p);
-        System.out.println(account.getUsername());
         HttpSession session = request.getSession();
         //the account doesn't exist in database
         if (account == null) {

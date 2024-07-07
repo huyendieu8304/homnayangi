@@ -57,7 +57,17 @@ public class IngredientDescriptionDAO extends DBContext {
             System.out.println("Having error while retrieve ingredient description by id");
 
         }
-
         return list;
+    }
+
+    public void deleteIngredientDescriptionById(int ingredientId) {
+        String sql = "DELETE FROM [dbo].[IngredientDescription]\n"
+                + "      WHERE [ingredient_id] = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, ingredientId);
+            st.executeUpdate();
+        } catch (Exception e) {
+        }
     }
 }

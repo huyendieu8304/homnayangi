@@ -83,10 +83,6 @@
                                         <div class="col-lg-12">
                                             <h4>Lọc</h4>
                                             <form action="shop">
-                                                <!--                                            <div class="input-group w-100 mx-auto d-flex">
-                                                                                                <input type="search" class="form-control p-3" aria-describedby="search-icon-1">
-                                                                                                <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-                                                                                            </div >-->
                                                 <div>
                                                     <input type="text" name="keyword"
                                                            class="input-group w-100 mx-auto d-flex p-3" 
@@ -119,7 +115,7 @@
                                                     <option value=""></option>
                                                     <option value="0">0đ</option>
                                                     <option value="50000">50,000đ</option>
-                                                    <option value="100000">100,000đđ</option>
+                                                    <option value="100000">100,000đ</option>
                                                     <option value="150000">150,000đ</option>
                                                     <option value="200000">200,000đ</option>
                                                 </select>
@@ -130,7 +126,7 @@
                                                              style="border: grey solid 1px; border-radius: 5px">
                                                     <option value=""></option>
                                                     <option value="50000">50,000đ</option>
-                                                    <option value="100000">100,000đđ</option>
+                                                    <option value="100000">100,000đ</option>
                                                     <option value="150000">150,000đ</option>
                                                     <option value="200000">200,000đ</option>
                                                 </select>

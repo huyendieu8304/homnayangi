@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -123,24 +122,40 @@ public class CreateOrderServlet extends HttpServlet {
                 deliveryAddress, timestamp, customerNote, "waiting confirm");
 
         OrderDAO orderdb = new OrderDAO();
-        orderdb.addAnOrder(o);
+        int result = orderdb.addAnOrder(o);
 
-        ArrayList<Cart> order = (ArrayList<Cart>) session.getAttribute("order");
-        ArrayList<OrderDetail> orderDetails = new ArrayList<>();
-        for (Cart x : order) {
-            OrderDetail orderItem = new OrderDetail(orderId,
-                    x.getIngredient().getIngredientId(),
-                    x.getQuantity(), x.getIngredient().getPrice());
-            orderDetails.add(orderItem);
+        response.setContentType("text/plain");
+        response.setCharacterEncoding("UTF-8");
+        if (result != -1) {
+            ArrayList<Cart> order = (ArrayList<Cart>) session.getAttribute("order");
+            ArrayList<OrderDetail> orderDetails = new ArrayList<>();
+            for (Cart x : order) {
+                OrderDetail orderItem = new OrderDetail(orderId,
+                        x.getIngredient().getIngredientId(),
+                        x.getQuantity(), x.getIngredient().getPrice());
+                orderDetails.add(orderItem);
+            }
+            OrderDetailDAO orderDetaildb = new OrderDetailDAO();
+            orderDetaildb.addOrderDetail(orderDetails);
+
+            CartDAO cartdb = new CartDAO();
+            cartdb.removeItemsFromUserCart(order);
+
+            //get user's cart size
+            session.setAttribute("cartSize", cartdb.countItemsInCartOfUser(account.getAccountId()));
+
+            try (PrintWriter out = response.getWriter()) {
+
+                // Inform user of successful registration
+                out.print("success|Đã thành công tạo đơn hàng, trong lúc chờ thông báo tiếp theo, quý khách có thể tiếp tục mua hàng");
+            }
+        } else {
+            try (PrintWriter out = response.getWriter()) {
+
+                // Inform user of successful registration
+                out.print("error|Đã có lỗi xảy ra khi tạo đơn hàng, mời quay lại sau");
+            }
         }
-        OrderDetailDAO orderDetaildb = new OrderDetailDAO();
-        orderDetaildb.addOrderDetail(orderDetails);
-
-        CartDAO cartdb = new CartDAO();
-        cartdb.removeItemsFromUserCart(order);
-
-        //get user's cart size
-        session.setAttribute("cartSize", cartdb.countItemsInCartOfUser(account.getAccountId()));
 
     }
 

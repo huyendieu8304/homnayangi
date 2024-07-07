@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 public class OrderDetail {
      private String orderId;
      private int ingredientId;
+     private Ingredient ingredient;
      private int quantity;
      private BigDecimal price;
 
@@ -25,6 +26,14 @@ public class OrderDetail {
         this.quantity = quantity;
         this.price = price;
     }
+
+    public OrderDetail(String orderId, Ingredient ingredient, int quantity, BigDecimal price) {
+        this.orderId = orderId;
+        this.ingredient = ingredient;
+        this.quantity = quantity;
+        this.price = price;
+    }
+    
 
     public String getOrderId() {
         return orderId;
@@ -42,6 +51,15 @@ public class OrderDetail {
         this.ingredientId = ingredientId;
     }
 
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    
     public int getQuantity() {
         return quantity;
     }

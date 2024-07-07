@@ -33,7 +33,7 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-        
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
 
@@ -96,38 +96,45 @@
                             <a href="cart" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
                                 <c:if test="${not empty sessionScope.cartSize}">
-                                <span
-                                    class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
-                                    style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${sessionScope.cartSize}</span>
+                                    <span
+                                        class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;">${sessionScope.cartSize}</span>
                                 </c:if>
                             </a>
-                                    <c:set var="account" value="${sessionScope.account}"></c:set>
-                                    
-                            <!-- only show logout if user has login yet -->
+                            <c:set var="account" value="${sessionScope.account}"></c:set>
+
+                                <!-- only show logout if user hasn't login yet -->
                             <c:if test="${empty sessionScope.account}">       
-                            <a href="login" class="my-auto" style="margin-left: 20px">
-                                <i class="fa-2x fa-solid fa-right-to-bracket"></i>
-                                <span>Đăng nhập</span>
-                            </a>
-                            <a href="register" class="my-auto" style="margin-left: 20px">
-                                <i class="fa-2x fa-solid fa-user-plus"></i>
-                                <span>Đăng kí</span>
-                            </a>
+                                <a href="login" class="my-auto" style="margin-left: 20px">
+                                    <i class="fa-2x fa-solid fa-right-to-bracket"></i>
+                                    <span>Đăng nhập</span>
+                                </a>
+                                <a href="register" class="my-auto" style="margin-left: 20px">
+                                    <i class="fa-2x fa-solid fa-user-plus"></i>
+                                    <span>Đăng kí</span>
+                                </a>
                             </c:if> 
-                            
+
                             <!-- only show logout if user login -->
-                            <c:if test="${not empty sessionScope.account}">       
-                            <a href="UserAccount" class="my-auto">
-                                <i class="fas fa-user fa-2x"></i>
-                                <span>${account.username}</span>
-                                
-                            </a>
-                                    
-                            <a href="logout" class="my-auto" style="margin-left: 20px">
-                                <i class="fa-2x fa-solid fa-right-from-bracket"></i>
-                                <!--<i class="fa-2x fa-solid fa-arrow-right-from-bracket"></i>-->
-                                <span>Đăng xuất</span>
-                            </a>
+                            <c:if test="${not empty sessionScope.account}">    
+                                <c:if test="${account.roleId == 1}">
+                                    <a href="ShowOrder" class="my-auto" style="margin-right: 20px">
+                                        <i class="fa-2x fas fa-solid fa-user-tie"></i>
+                                        <span>Quản lí</span>
+
+                                    </a>
+                                </c:if>
+                                <a href="UserAccount" class="my-auto">
+                                    <i class="fas fa-user fa-2x"></i>
+                                    <span>${account.username}</span>
+
+                                </a>
+
+                                <a href="logout" class="my-auto" style="margin-left: 20px">
+                                    <i class="fa-2x fa-solid fa-right-from-bracket"></i>
+                                    <!--<i class="fa-2x fa-solid fa-arrow-right-from-bracket"></i>-->
+                                    <span>Đăng xuất</span>
+                                </a>
                             </c:if> 
                         </div>
                     </div>
@@ -136,16 +143,16 @@
         </div>
         <!-- Navbar End -->
 
-<!--         JavaScript Libraries 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/lightbox/js/lightbox.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-         Template Javascript 
-        <script src="js/main.js"></script>-->
+        <!--         JavaScript Libraries 
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="lib/easing/easing.min.js"></script>
+                <script src="lib/waypoints/waypoints.min.js"></script>
+                <script src="lib/lightbox/js/lightbox.min.js"></script>
+                <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        
+                 Template Javascript 
+                <script src="js/main.js"></script>-->
     </body>
 
 </html>

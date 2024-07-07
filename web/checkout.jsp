@@ -36,7 +36,7 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-        
+
         <style>
             .error {
                 color: red;
@@ -60,6 +60,7 @@
         <!-- Checkout Page Start -->
         <div class="container-fluid py-5">
             <div class="container py-5">
+                <div id="errorFromServlet"></div>
                 <c:set var="order" value="${sessionScope.order}"></c:set>
                 <c:if test="${ empty order}">
                     <h3>oops! Bạn chưa chọn mặt hàng nào cả</h3>
@@ -97,28 +98,6 @@
                                            placeholder="Tỉnh thành, Quận/Huyện, Xã/Phường,Tên đường, số nhà ...">
                                     <div id="deliveryAddressError" class="error"></div>
                                 </div>
-                                <!--                                <div class="form-item">
-                                                                    <label class="form-label my-3">Town/City<sup>*</sup></label>
-                                                                    <input type="text" class="form-control">
-                                                                </div>
-                                                                <div class="form-item">
-                                                                    <label class="form-label my-3">Country<sup>*</sup></label>
-                                                                    <input type="text" class="form-control">
-                                                                </div>
-                                                                <div class="form-item">
-                                                                    <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
-                                                                    <input type="text" class="form-control">
-                                                                </div>
-                                
-                                                                <div class="form-check my-3">
-                                                                    <input type="checkbox" class="form-check-input" id="Account-1" name="Accounts" value="Accounts">
-                                                                    <label class="form-check-label" for="Account-1">Create an account?</label>
-                                                                </div>
-                                                                <hr>
-                                                                <div class="form-check my-3">
-                                                                    <input class="form-check-input" type="checkbox" id="Address-1" name="Address" value="Address">
-                                                                    <label class="form-check-label" for="Address-1">Ship to a different address?</label>
-                                                                </div>-->
                                 <div class="form-item">
                                     <label class="form-label my-3">Ghi chú</label>
                                     <textarea name="customerNote" class="form-control" spellcheck="false" cols="30" rows="11" placeholder="Oreder Notes (Optional)"></textarea>
@@ -205,7 +184,7 @@
                                     </div>
                                 </div>
                                 <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                                    <button type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Đặt hàng</button>
+                                    <button id="submitButton" type="submit" class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary">Đặt hàng</button>
                                 </div>
                             </div>
                         </div>
@@ -297,10 +276,33 @@
 
                             // Recalculate total price if form is valid
                             if (isValid) {
-                                calculateTotalPrice();
+                                const xhttp = new XMLHttpRequest();
+                                xhttp.onload = function () {
+                                    if (this.status === 200) {
+                                        const responseParts = this.responseText.split('|');
+                                        if (responseParts[0] === 'success') {
+                                            alert(responseParts[1]); // Hiển thị thông báo thành công
+                                            document.getElementById('submitButton').disabled = true; // Vô hiệu hóa nút "Đặt hàng"
+                                            window.location.href = 'shop'; // Chuyển hướng đến trang cửa hàng
+                                        } else if (responseParts[0] === 'error') {
+                                            document.getElementById("errorFromServlet").textContent = responseParts[1]; // Hiển thị thông báo lỗi nếu cần
+                                        }
+                                    } else {
+                                        console.error("Request failed with status:", this.status);
+                                        document.getElementById("errorFromServlet").textContent = "Request failed.";
+                                    }
+                                };
+
+                                xhttp.open("POST", "CreateOrder");
+                                xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                                var formData = new FormData(event.target);
+                                var params = new URLSearchParams(formData).toString();
+                                console.log(params);
+                                xhttp.send(params);
                             }
 
-                            return isValid;
+                            return false; // Prevent the form from submitting normally
                         }
 
                         document.addEventListener('DOMContentLoaded', function () {

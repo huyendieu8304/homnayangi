@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    
+    <filter>
+        <filter-name>JspFilter</filter-name>
+        <filter-class>filter.JspFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>filter.LoginFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>RoleFilter</filter-name>
+        <filter-class>filter.RoleFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>ErrorFilter</filter-name>
+        <filter-class>filter.ErrorFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/AddToCart</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RoleFilter</filter-name>
+        <url-pattern>/ShowOrder</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>JspFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ErrorFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>IngredientDetailServlet</servlet-name>
         <servlet-class>controller.IngredientDetailServlet</servlet-class>
@@ -44,6 +78,30 @@
         <servlet-name>UserAccountServlet</servlet-name>
         <servlet-class>controller.UserAccountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminShowOrderServlet</servlet-name>
+        <servlet-class>controller.AdminShowOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateOrderServlet</servlet-name>
+        <servlet-class>controller.UpdateOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminShowIngredientServlet</servlet-name>
+        <servlet-class>controller.AdminShowIngredientServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminAddANewIngredientServlet</servlet-name>
+        <servlet-class>controller.AdminAddANewIngredientServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminUpdateAnIngredientServlet</servlet-name>
+        <servlet-class>controller.AdminUpdateAnIngredientServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminStatisticSaleServlet</servlet-name>
+        <servlet-class>controller.AdminStatisticSaleServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IngredientDetailServlet</servlet-name>
         <url-pattern>/ingredientDetail</url-pattern>
@@ -87,5 +145,29 @@
     <servlet-mapping>
         <servlet-name>UserAccountServlet</servlet-name>
         <url-pattern>/UserAccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminShowOrderServlet</servlet-name>
+        <url-pattern>/ShowOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateOrderServlet</servlet-name>
+        <url-pattern>/UpdateOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminShowIngredientServlet</servlet-name>
+        <url-pattern>/ShowIngredient</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminAddANewIngredientServlet</servlet-name>
+        <url-pattern>/AddANewIngredient</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminUpdateAnIngredientServlet</servlet-name>
+        <url-pattern>/UpdateAnIngredient</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminStatisticSaleServlet</servlet-name>
+        <url-pattern>/StatisticSale</url-pattern>
     </servlet-mapping>
 </web-app>
