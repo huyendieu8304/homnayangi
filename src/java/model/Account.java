@@ -45,6 +45,16 @@ public class Account {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
+
+    public Account(int accountId, String username, String password, int roleId, String fullname, String phoneNumber, String email) {
+        this.accountId = accountId;
+        this.username = username;
+        this.password = password;
+        this.roleId = roleId;
+        this.fullname = fullname;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
     
     public int getAccountId() {
         return accountId;

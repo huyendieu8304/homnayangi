@@ -5,11 +5,8 @@
 
 package controller;
 
-import dal.CategoryDAO;
-import dal.IngredientDAO;
-import dal.IngredientDescriptionDAO;
-import dal.StatisticDAO;
-import dal.SubcategoryDAO;
+import dal.OrderDAO;
+import dal.OrderDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,16 +14,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import model.Category;
-import model.Ingredient;
-import model.IngredientDescription;
-import model.Subcategory;
+import model.Order;
+import model.OrderDetail;
 
 /**
  *
  * @author BKC
  */
-public class IngredientDetailServlet extends HttpServlet {
+public class UserOrderServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -43,10 +38,10 @@ public class IngredientDetailServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet IngredientDetailServlet</title>");  
+            out.println("<title>Servlet UserOrderServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet IngredientDetailServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UserOrderServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,51 +58,17 @@ public class IngredientDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        String orderId = request.getParameter("orderId");
         
-        //get category 
-        CategoryDAO catdb = new CategoryDAO();
-        ArrayList<Category> catlist = catdb.getAllCategory();
-        request.setAttribute("catlist", catlist);
+        OrderDAO orderdb = new OrderDAO();
+        Order orderBasic = orderdb.getOrderById(orderId);
+        request.setAttribute("orderBasic", orderBasic);
         
-        //get subcategory 
-        SubcategoryDAO subcatdb = new SubcategoryDAO();
-        ArrayList<Subcategory> subcatlist = subcatdb.getAllSubcategory();
-        request.setAttribute("subcatlist", subcatlist);
+        OrderDetailDAO orderDetaildb = new OrderDetailDAO();
+        ArrayList<OrderDetail> listOrderDetail = (ArrayList<OrderDetail>) orderDetaildb.getOrderDetailByOrderId(orderId);
+        request.setAttribute("orderDetail", listOrderDetail);
         
-        //get the ingredient
-        String idRaw = request.getParameter("id");
-        try {
-            int ingredientId = Integer.parseInt(idRaw);
-            IngredientDAO ingredientdb = new IngredientDAO();
-            Ingredient i = ingredientdb.getIngredientById(ingredientId);
-            request.setAttribute("ingredient", i);
-            
-            ArrayList<Ingredient> relatedIngredients = ingredientdb.getNIngredientsByCategoryId(i.getCategoryId(), 8);
-            request.setAttribute("relatedIngredients", relatedIngredients);
-            
-            IngredientDescriptionDAO desdb = new IngredientDescriptionDAO();
-            ArrayList<IngredientDescription> ingredientDescription = desdb.getIngredientDescriptionById(ingredientId);
-            request.setAttribute("ingredientDescriptions", ingredientDescription);
-            
-            String categoryName = catdb.getCategoryNameById(i.getCategoryId());
-            request.setAttribute("categoryName", categoryName);
-            
-            //the product belongs to a subcategory
-            if (i.getSubcategoryId() != 0) {
-                String subcategoryName = subcatdb.getSubcategoryNameById(i.getSubcategoryId());
-                request.setAttribute("subcategoryName", subcategoryName);
-            } 
-            
-            StatisticDAO statisticdb = new StatisticDAO();
-            ArrayList<Ingredient> bestSellerList = statisticdb.get6BestSellerProduct();
-            request.setAttribute("bestSellerList", bestSellerList);
-            
-            request.getRequestDispatcher("ingredientDetail.jsp").forward(request, response);
-            
-        } catch (Exception e) {
-        }
-        
-        processRequest(request, response);
+        request.getRequestDispatcher("userOrderManage.jsp").forward(request, response);
     } 
 
     /** 

@@ -5,22 +5,20 @@
 
 package controller;
 
-import dal.IngredientDAO;
-import dal.StatisticDAO;
+import dal.AccountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import model.Ingredient;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author BKC
  */
-public class HomeServlet extends HttpServlet {
+public class AdminShowUserServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,10 +35,10 @@ public class HomeServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");  
+            out.println("<title>Servlet AdminShowUserServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AdminShowUserServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,23 +55,14 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
         
-        IngredientDAO ingredientdb = new IngredientDAO();
+        AccountDAO accountdb = new AccountDAO();
+        session.setAttribute("numOfAccount", accountdb.countAccount());
         
-        ArrayList<Ingredient> vegielist = ingredientdb.getNIngredientsByCategoryId(3, 8);
-        ArrayList<Ingredient> fruitlist = ingredientdb.getNIngredientsByCategoryId(6, 8);
-        ArrayList<Ingredient> meatlist = ingredientdb.getNIngredientsByCategoryId(1, 8);
+        request.setAttribute("accountList", accountdb.searchAccount(null, null, null));
         
-        request.setAttribute("vegielist", vegielist);
-        request.setAttribute("fruitlist", fruitlist);
-        request.setAttribute("meatlist", meatlist);
-        
-        StatisticDAO statisticdb = new StatisticDAO();
-        ArrayList<Ingredient> bestSellerList = statisticdb.get6BestSellerProduct();
-        request.setAttribute("bestSellerList", bestSellerList);
-        
-        request.getRequestDispatcher("home.jsp").forward(request, response);
-        
+        request.getRequestDispatcher("adminUserManage.jsp").forward(request, response);
     } 
 
     /** 
@@ -86,7 +75,14 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String username = request.getParameter("username");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String roleId = request.getParameter("roleId");
+        
+        AccountDAO accountdb = new AccountDAO();
+        request.setAttribute("accountList", accountdb.searchAccount(username, phoneNumber, roleId));
+        
+        request.getRequestDispatcher("adminUserManage.jsp").forward(request, response);
     }
 
     /** 

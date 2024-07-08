@@ -71,7 +71,7 @@
                         <!-- manage USER nav start -->
                         <!-- <li class="nav-item active"> -->
                         <li class="nav-item">
-                            <a href="#user">
+                            <a href="ShowUser">
                                 <i class="fas fa-user"></i>
                                 <p>Người dùng</p>
                                 

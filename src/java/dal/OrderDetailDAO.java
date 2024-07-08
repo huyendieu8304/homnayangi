@@ -45,7 +45,7 @@ public class OrderDetailDAO extends DBContext {
     public List<OrderDetail> getOrderDetailByOrderId(String orderId) {
         ArrayList<OrderDetail> listOrderDetail = new ArrayList<>();
         String sql = "SELECT i.[ingredient_id], i.ingredient_name, i.quantity_per_unit,\n"
-                + "i.[category_id], i.[subcategory_id], i.unit, i.stock_quantity, i.image_url, o.quantity, o.price\n"
+                + "i.[category_id], i.[subcategory_id], i.unit, i.stock_quantity, i.image_url, i.state, o.quantity, o.price\n"
                 + "FROM [dbo].[OrderDetail] o JOIN [dbo].[Ingredient] i\n"
                 + "	ON o.ingredient_id = i.ingredient_id\n"
                 + "WHERE order_id = ?";
@@ -65,10 +65,10 @@ public class OrderDetailDAO extends DBContext {
                 BigDecimal price = rs.getBigDecimal("price");
                 int stockQuantity = rs.getInt("stock_quantity");
                 String imageUrl = rs.getString("image_url");
+                boolean state = rs.getBoolean("state");
                 Ingredient i = new Ingredient(ingredientId, ingredientName,
-                        categoryId, subcategoryId, unit, quantityPerUnit, price,
-                        stockQuantity, imageUrl);
-                
+                        categoryId, subcategoryId, unit, quantityPerUnit, price, stockQuantity, imageUrl, state);
+                                
                 OrderDetail o = new OrderDetail(orderId, i, quantity, price);
                 listOrderDetail.add(o);
             }

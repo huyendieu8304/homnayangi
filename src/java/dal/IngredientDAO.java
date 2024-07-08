@@ -248,7 +248,7 @@ public class IngredientDAO extends DBContext {
         return list;
     }
 
-    //get all product in a same category
+    //get all product
     public ArrayList<Ingredient> getAllIngredients() {
         ArrayList<Ingredient> list = new ArrayList<>();
         String sql = "SELECT [ingredient_id]\n"

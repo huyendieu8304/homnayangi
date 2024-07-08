@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import model.Ingredient;
 
 /**
  *
@@ -64,6 +65,9 @@ public class AdminStatisticSaleServlet extends HttpServlet {
         ArrayList<BigDecimal> categoryRevenue = (ArrayList<BigDecimal>) db.getEachCategoryRevenue();
         request.setAttribute("categoryRevenue", categoryRevenue);
         
+        StatisticDAO statisticdb = new StatisticDAO();
+        ArrayList<Ingredient> bestSellerList = statisticdb.get6BestSellerProduct();
+        request.setAttribute("bestSellerList", bestSellerList);
         
         request.getRequestDispatcher("adminStatistic.jsp").forward(request, response);
     } 

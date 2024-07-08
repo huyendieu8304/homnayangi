@@ -7,6 +7,7 @@ package dal;
 import model.Account;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
@@ -135,11 +136,66 @@ public class AccountDAO extends DBContext {
             st.setString(5, a.getPhoneNumber());
             st.setString(6, a.getEmail());
             st.setInt(7, accountId);
-            
+
             st.executeUpdate();
         } catch (Exception e) {
             System.out.println("Error occur while updating account");
             System.out.println(e);
         }
+    }
+
+    public int countAccount() {
+        String sql = "select count(*) from [Account]";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+        }
+        return -1;
+    }
+
+    public ArrayList<Account> searchAccount(String username, String phoneNumber, String roleId) {
+        ArrayList<Account> list = new ArrayList<>();
+        String sql = "SELECT [account_id]\n"
+                + "      ,[username]\n"
+                + "      ,[password]\n"
+                + "      ,[role_id]\n"
+                + "      ,[fullname]\n"
+                + "      ,[phone_number]\n"
+                + "      ,[email]\n"
+                + "  FROM [dbo].[Account] WHERE 1 = 1";
+
+        if (username != null && !username.equals("")) {
+            sql += "AND [username] LIKE N'%" + username + "%'";
+        }
+        if (phoneNumber != null && !phoneNumber.equals("")) {
+            sql += "AND [phone_number] LIKE N'%" + phoneNumber + "%'";
+        }
+        if (roleId != null && !roleId.equals("")) {
+            try {
+                int role = Integer.parseInt(roleId);
+                sql += "AND [role_id] = " + role ;
+            } catch (Exception e) {
+            }
+        }
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(rs.getInt("account_id"),
+                        rs.getString("username"),
+                        rs.getString("password"),
+                        rs.getInt("role_id"),
+                        rs.getString("fullname"),
+                        rs.getString("phone_number"),
+                        rs.getString("email")));
+            }
+        } catch (Exception e) {
+        }
+        return list;
     }
 }

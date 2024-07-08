@@ -147,7 +147,7 @@ public class CreateOrderServlet extends HttpServlet {
             try (PrintWriter out = response.getWriter()) {
 
                 // Inform user of successful registration
-                out.print("success|Đã thành công tạo đơn hàng, trong lúc chờ thông báo tiếp theo, quý khách có thể tiếp tục mua hàng");
+                out.print("success|Đã thành công tạo đơn hàng: " + orderId + ", trong lúc chờ thông báo tiếp theo, quý khách có thể tiếp tục mua hàng");
             }
         } else {
             try (PrintWriter out = response.getWriter()) {

@@ -107,7 +107,13 @@ public class UpdateOrderServlet extends HttpServlet {
             ArrayList<OrderDetail> listOrderDetail = (ArrayList<OrderDetail>) orderDetaildb.getOrderDetailByOrderId(orderId);
             for (OrderDetail x : listOrderDetail) {
                 int originalStockQuantity = x.getIngredient().getStockQuantity();
-                x.getIngredient().setStockQuantity(originalStockQuantity - x.getQuantity());
+                int newStockQuantity = originalStockQuantity - x.getQuantity();
+                x.getIngredient().setStockQuantity(newStockQuantity);
+                
+                if (newStockQuantity <= 0) {
+                    x.getIngredient().setState(false);
+                }
+                
                 ingredientdb.updateAnIngredientById(x.getIngredientId(), x.getIngredient());
             }
         }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
-    
     <filter>
         <filter-name>JspFilter</filter-name>
         <filter-class>filter.JspFilter</filter-class>
@@ -17,14 +16,23 @@
         <filter-name>ErrorFilter</filter-name>
         <filter-class>filter.ErrorFilter</filter-class>
     </filter>
-    
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/AddToCart</url-pattern>
+        <url-pattern>/CreateOrder</url-pattern>
+        <url-pattern>/RemoveFromCart</url-pattern>
+        <url-pattern>/UserAccount</url-pattern>
+        <url-pattern>/UserOrder</url-pattern>
+        <url-pattern>/UpdateOrder</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>RoleFilter</filter-name>
         <url-pattern>/ShowOrder</url-pattern>
+        <url-pattern>/ShowIngredient</url-pattern>
+        <url-pattern>/ShowUser</url-pattern>
+        <url-pattern>/StatisticSale</url-pattern>
+        <url-pattern>/UpdateAnIngredient</url-pattern>
+        <url-pattern>/AddANewIngredient</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>JspFilter</filter-name>
@@ -102,6 +110,14 @@
         <servlet-name>AdminStatisticSaleServlet</servlet-name>
         <servlet-class>controller.AdminStatisticSaleServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserOrderServlet</servlet-name>
+        <servlet-class>controller.UserOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminShowUserServlet</servlet-name>
+        <servlet-class>controller.AdminShowUserServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IngredientDetailServlet</servlet-name>
         <url-pattern>/ingredientDetail</url-pattern>
@@ -109,6 +125,10 @@
     <servlet-mapping>
         <servlet-name>ShopServlet</servlet-name>
         <url-pattern>/shop</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern/>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -169,5 +189,13 @@
     <servlet-mapping>
         <servlet-name>AdminStatisticSaleServlet</servlet-name>
         <url-pattern>/StatisticSale</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserOrderServlet</servlet-name>
+        <url-pattern>/UserOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminShowUserServlet</servlet-name>
+        <url-pattern>/ShowUser</url-pattern>
     </servlet-mapping>
 </web-app>

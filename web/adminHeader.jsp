@@ -71,6 +71,8 @@
                                 </li>
                                 <li>
                                     <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="home">Trang chủ</a>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="logout">Đăng xuất</a>
                                 </li>
                             </div>

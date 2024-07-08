@@ -49,7 +49,8 @@ public class Order {
         this.customerNote = customerNote;
         this.orderStatus = orderStatus;
     }
-
+    
+    //full infor
     public Order(String orderId, int accountId, String receiverFullname, String receiverPhoneNumber, String receiverEmail, String deliveryAddress, Timestamp orderDate, Timestamp shipDate, String customerNote, String orderStatus) {
         this.orderId = orderId;
         this.accountId = accountId;
@@ -63,6 +64,7 @@ public class Order {
         this.orderStatus = orderStatus;
     }
 
+    
     public String getOrderId() {
         return orderId;
     }

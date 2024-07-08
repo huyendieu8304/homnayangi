@@ -66,6 +66,18 @@ public class UserAccountServlet extends HttpServlet {
         AccountDAO accountdb = new AccountDAO();
         Account a = accountdb.getAccountInfromation(account.getAccountId());
 
+        OrderDAO orderdb = new OrderDAO();
+        ArrayList<Order> waitingOrderList = orderdb.getOrderByStatusOfaUser("waiting confirm", account.getAccountId());
+        ArrayList<Order> preparingOrderList = orderdb.getOrderByStatusOfaUser("preparing", account.getAccountId());
+        ArrayList<Order> shippingOrderList = orderdb.getOrderByStatusOfaUser("shipping", account.getAccountId());
+        ArrayList<Order> completedOrderList = orderdb.getOrderByStatusOfaUser("completed", account.getAccountId());
+        ArrayList<Order> canceledOrderList = orderdb.getOrderByStatusOfaUser("cancled", account.getAccountId());
+        request.setAttribute("waitingOrderList", waitingOrderList);
+        request.setAttribute("preparingOrderList", preparingOrderList);
+        request.setAttribute("shippingOrderList", shippingOrderList);
+        request.setAttribute("completedOrderList", completedOrderList);
+        request.setAttribute("canceledOrderList", canceledOrderList);
+        
         request.setAttribute("account", a);
         request.getRequestDispatcher("accountDetail.jsp").forward(request, response);
 

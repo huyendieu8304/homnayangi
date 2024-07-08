@@ -53,7 +53,7 @@
             <div class="main-panel">
                 <div class="main-header">
                     <!-- Navbar Header -->
-                        <%@include file="adminHeader.jsp" %>
+                    <%@include file="adminHeader.jsp" %>
                     <!-- End Navbar -->
                 </div>
 
@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6" style="display: none">
                                 <div class="card">
                                     <div class="card-header">
@@ -117,7 +117,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6" style="display: none">
                                 <div class="card">
                                     <div class="card-header">
@@ -186,6 +186,62 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- top 6 best seller start -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="d-flex align-items-center">
+                                            <h4 class="card-title">6 sản phẩm bán chạy nhất</h4>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+
+                                        <!-- table start -->
+                                        <div class="table-responsive">
+                                            <table
+                                                id="add-row"
+                                                class="display table table-striped table-hover"
+                                                >
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã sản phẩm</th>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th>Tồn kho</th>
+                                                        <th>Giá</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Mã sản phẩm</th>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th>Tồn kho</th>
+                                                        <th>Giá</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <c:forEach items="${bestSellerList}" var="i">
+                                                        <tr>
+                                                            <td>${i.ingredientId}</td>
+                                                            <td>${i.ingredientName}</td>
+                                                            <td>${i.stockQuantity}</td>
+                                                            <td>${i.price}</td>
+
+                                                        </tr>
+                                                    </c:forEach>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <!-- table end -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- top 6 best seller start -->
                     </div>
                 </div>
                 <!-- main part manage end -->

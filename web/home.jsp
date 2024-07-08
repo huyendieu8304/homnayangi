@@ -35,11 +35,11 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-        
+
     </head>
     <body>
         <%@include file="header.jsp" %>
-        
+
         <!-- Hero Start -->
         <div class="container-fluid py-5 mb-5 hero-header">
             <div class="container py-5">
@@ -47,7 +47,7 @@
                     <div class="col-md-12 col-lg-7">
                         <h4 class="mb-3 text-secondary">100% sản phẩm chất lượng</h4>
                         <h1 class="mb-5 display-3 text-primary">Thực phẩm tươi sạch</h1>
-                        
+
                         <div class="position-relative mx-auto">
                             <form action="shop" method="get">
                                 <input name="keyword" class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill" type="text" placeholder="Tìm kiếm sản phẩm">
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="carousel-item rounded">
                                     <img src="img/thitsach.jpg" class="img-fluid w-100 h-100 rounded" alt="Second slide">
-                                    <a href="#" class="btn px-4 py-2 text-white rounded">Thit sạch</a>
+                                    <a href="#" class="btn px-4 py-2 text-white rounded">Thịt sạch</a>
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
@@ -85,7 +85,7 @@
             </div>
         </div>
         <!-- Hero End -->
-        
+
         <!-- Featurs Section Start -->
         <div class="container-fluid featurs py-5">
             <div class="container py-5">
@@ -96,8 +96,8 @@
                                 <i class="fas fa-car-side fa-3x text-white"></i>
                             </div>
                             <div class="featurs-content text-center">
-                                <h5>Vận chuyển miễn phí</h5>
-                                <p class="mb-0">với đơn hàng từ 50000 VND</p>
+                                <h5>Vận chuyển nhanh chóng</h5>
+                                <p class="mb-0">shipper thân thiện nhiệt tình</p>
                             </div>
                         </div>
                     </div>
@@ -138,7 +138,7 @@
             </div>
         </div>
         <!-- Featurs Section End -->
-        
+
         <!-- Fruits Shop Start-->
         <div class="container-fluid fruite py-5">
             <div class="container py-5">
@@ -179,30 +179,30 @@
                                     <div class="row g-4">
                                         <c:set var="vegies" value="${requestScope.vegielist}"></c:set>
                                         <c:forEach var="vegie" items="${vegies}">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="${vegie.imageUrl}" class="img-fluid w-100 rounded-top" 
-                                                         style="width: 500px; height: 300px" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                                                     style="top: 10px; left: 10px;">Rau củ</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <a href="ingredientDetail?id=${vegie.getIngredientId()}">
-                                                        <h4>${vegie.ingredientName}</h4>
-                                                    </a>
-                                                    <p class="text-dark fs-5 ">${vegie.getQuantityPerUnitFormatted()} ${vegie.getUnit()}</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold">${vegie.getFormattedPrice()} đ</p>
-                                                        <a href="AddToCart?quantity=1&ingredientId=${vegie.getIngredientId()}" 
-                                                           class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> 
-                                                            Thêm vào giỏ
+                                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                                <div class="rounded position-relative fruite-item">
+                                                    <div class="fruite-img">
+                                                        <img src="${vegie.imageUrl}" class="img-fluid w-100 rounded-top" 
+                                                             style="width: 500px; height: 300px" alt="">
+                                                    </div>
+                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                                         style="top: 10px; left: 10px;">Rau củ</div>
+                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                        <a href="ingredientDetail?id=${vegie.getIngredientId()}">
+                                                            <h4>${vegie.ingredientName}</h4>
                                                         </a>
+                                                        <p class="text-dark fs-5 ">${vegie.getQuantityPerUnitFormatted()} ${vegie.getUnit()}</p>
+                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                            <p class="text-dark fs-5 fw-bold">${vegie.getFormattedPrice()} đ</p>
+                                                            <a href="AddToCart?quantity=1&ingredientId=${vegie.getIngredientId()}" 
+                                                               class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> 
+                                                                Thêm vào giỏ
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </c:forEach>
                                     </div>
                                 </div>
@@ -214,26 +214,26 @@
                                     <div class="row g-4">
                                         <c:set var="fruits" value="${requestScope.fruitlist}"></c:set>
                                         <c:forEach var="fruit" items="${fruits}">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="${fruit.imageUrl}" class="img-fluid w-100 rounded-top" style="width: 500px; height: 300px" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Rau củ</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <a href="ingredientDetail?id=${fruit.getIngredientId()}">
-                                                        <h4>${fruit.ingredientName}</h4>
-                                                    </a>
-                                                    <p class="text-dark fs-5 ">${fruit.getQuantityPerUnitFormatted()} ${fruit.getUnit()}</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold">${fruit.getFormattedPrice()} đ</p>
-                                                        <a href="AddToCart?quantity=1&ingredientId=${fruit.getIngredientId()}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> 
-                                                            Thêm vào giỏ</a>
+                                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                                <div class="rounded position-relative fruite-item">
+                                                    <div class="fruite-img">
+                                                        <img src="${fruit.imageUrl}" class="img-fluid w-100 rounded-top" style="width: 500px; height: 300px" alt="">
+                                                    </div>
+                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Rau củ</div>
+                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                        <a href="ingredientDetail?id=${fruit.getIngredientId()}">
+                                                            <h4>${fruit.ingredientName}</h4>
+                                                        </a>
+                                                        <p class="text-dark fs-5 ">${fruit.getQuantityPerUnitFormatted()} ${fruit.getUnit()}</p>
+                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                            <p class="text-dark fs-5 fw-bold">${fruit.getFormattedPrice()} đ</p>
+                                                            <a href="AddToCart?quantity=1&ingredientId=${fruit.getIngredientId()}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> 
+                                                                Thêm vào giỏ</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </c:forEach>
                                     </div>
                                 </div>
@@ -245,30 +245,30 @@
                                     <div class="row g-4">
                                         <c:set var="meats" value="${requestScope.meatlist}"></c:set>
                                         <c:forEach var="meat" items="${meats}">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="${meat.imageUrl}" class="img-fluid w-100 rounded-top" style="width: 500px; height: 300px" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Rau củ</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <a href="ingredientDetail?id=${meat.getIngredientId()}">
-                                                        <h4>${meat.ingredientName}</h4>
-                                                    </a>
-                                                    <p class="text-dark fs-5 ">${meat.getQuantityPerUnitFormatted()} ${meat.getUnit()}</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold">${meat.getFormattedPrice()} đ</p>
-                                                        <a href="AddToCart?quantity=1&ingredientId=${meat.getIngredientId()}" 
-                                                           class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> 
-                                                            Thêm vào giỏ
+                                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                                <div class="rounded position-relative fruite-item">
+                                                    <div class="fruite-img">
+                                                        <img src="${meat.imageUrl}" class="img-fluid w-100 rounded-top" style="width: 500px; height: 300px" alt="">
+                                                    </div>
+                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Rau củ</div>
+                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                        <a href="ingredientDetail?id=${meat.getIngredientId()}">
+                                                            <h4>${meat.ingredientName}</h4>
                                                         </a>
+                                                        <p class="text-dark fs-5 ">${meat.getQuantityPerUnitFormatted()} ${meat.getUnit()}</p>
+                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                            <p class="text-dark fs-5 fw-bold">${meat.getFormattedPrice()} đ</p>
+                                                            <a href="AddToCart?quantity=1&ingredientId=${meat.getIngredientId()}" 
+                                                               class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> 
+                                                                Thêm vào giỏ
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </c:forEach>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -279,28 +279,28 @@
                                     <div class="row g-4">
                                         <c:set var="vegies" value="${requestScope.vegielist}"></c:set>
                                         <c:forEach var="vegie" items="${vegies}">
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <div class="rounded position-relative fruite-item">
-                                                <div class="fruite-img">
-                                                    <img src="${vegie.imageUrl}" class="img-fluid w-100 rounded-top" style="width: 500px; height: 300px" alt="">
-                                                </div>
-                                                <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Rau củ</div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                    <a href="ingredientDetail?id=${ingredient.getIngredientId()}">
-                                                        <h4>${vegie.ingredientName}</h4>
-                                                    </a>
-                                                    <p class="text-dark fs-5 ">${vegie.getQuantityPerUnitFormatted()} ${vegie.getUnit()}</p>
-                                                    <div class="d-flex justify-content-between flex-lg-wrap">
-                                                        <p class="text-dark fs-5 fw-bold">${vegie.getFormattedPrice()} đ</p>
-                                                        <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
-                                                            <i class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                            Thêm vào giỏ</a>
+                                            <div class="col-md-6 col-lg-4 col-xl-3">
+                                                <div class="rounded position-relative fruite-item">
+                                                    <div class="fruite-img">
+                                                        <img src="${vegie.imageUrl}" class="img-fluid w-100 rounded-top" style="width: 500px; height: 300px" alt="">
+                                                    </div>
+                                                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Rau củ</div>
+                                                    <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                        <a href="ingredientDetail?id=${ingredient.getIngredientId()}">
+                                                            <h4>${vegie.ingredientName}</h4>
+                                                        </a>
+                                                        <p class="text-dark fs-5 ">${vegie.getQuantityPerUnitFormatted()} ${vegie.getUnit()}</p>
+                                                        <div class="d-flex justify-content-between flex-lg-wrap">
+                                                            <p class="text-dark fs-5 fw-bold">${vegie.getFormattedPrice()} đ</p>
+                                                            <a href="AddToCart?quantity=1&ingredientId=${ingredient.getIngredientId()}" class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary">
+                                                                <i class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                                Thêm vào giỏ</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </c:forEach>
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -310,7 +310,7 @@
             </div>
         </div>
         <!-- Fruits Shop End-->
-        
+
         <!-- Bestsaler Product Start -->
         <div class="container-fluid py-5">
             <div class="container py-5">
@@ -321,55 +321,39 @@
                 <div class="row g-4">
                     <!-- 6 cái -->
                     <!-- single best seller ver 1 circle start -->
-                    <div class="col-lg-6 col-xl-4">
-                        <div class="p-4 rounded bg-light">
-                            <div class="row align-items-center">
-                                <div class="col-6">
-                                    <img src="img/best-product-1.jpg" class="img-fluid rounded-circle w-100" alt="">
-                                </div>
-                                <div class="col-6">
-                                    <a href="#" class="h5">Organic Tomato</a>
-                                    <div class="d-flex my-3">
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star text-primary"></i>
-                                        <i class="fas fa-star"></i>
+                    <c:set var="bestSeller" value="${requestScope.bestSellerList}"></c:set>
+                    <c:forEach items="${bestSeller}" var="b">
+                        <div class="col-lg-6 col-xl-4">
+                            <div class="p-4 rounded bg-light">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <img src="${b.imageUrl}" class="img-fluid rounded-circle w-100" alt="">
                                     </div>
-                                    <h4 class="mb-3">3.12 $</h4>
-                                    <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
+                                    <div class="col-6">
+                                        <a href="ingredientDetail?id=${b.getIngredientId()}" class="h5">${b.ingredientName}</a>
+                                        <div class="d-flex my-3">
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star text-primary"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <h4 class="mb-3">${b.getFormattedPrice()} đ</h4>
+                                        <a href="AddToCart?quantity=1&ingredientId=${b.getIngredientId()}" 
+                                           class="btn border border-secondary rounded-pill px-3 text-primary">
+                                            <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào giỏ
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </c:forEach>
                     <!-- single best seller ver 1 circle end -->
-                    
-                    <!-- 4 cái -->
-                    <!-- single best seller ver 2 rectangle start -->
-                    <div class="col-md-6 col-lg-6 col-xl-3">
-                        <div class="text-center">
-                            <img src="img/fruite-item-1.jpg" class="img-fluid rounded" alt="">
-                            <div class="py-4">
-                                <a href="#" class="h5">Organic Tomato</a>
-                                <div class="d-flex my-3 justify-content-center">
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star text-primary"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <h4 class="mb-3">3.12 $</h4>
-                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary"><i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- single best seller ver 2 rectangle end -->
-                    
                 </div>
             </div>
         </div>
         <!-- Bestsaler Product End -->
-        
+
         <!-- Fact Start -->
         <div class="container-fluid py-5">
             <div class="container">
@@ -408,7 +392,7 @@
             </div>
         </div>
         <!-- Fact Start -->
-        
+
         <%@include file="footer.jsp" %>
 
         <!-- JavaScript Libraries -->

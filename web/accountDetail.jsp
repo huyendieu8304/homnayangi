@@ -49,10 +49,11 @@
 
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
-            <h1 class="text-center text-white display-6">Cửa hàng</h1>
+            <h1 class="text-center text-white display-6">Thông tin tài khoản</h1>
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a href="home">Trang chủ</a></li>
-                <li class="breadcrumb-item active text-white">Cửa hàng</li>
+                <li class="breadcrumb-item"><a href="shop">Cửa hàng</a></li>
+                <li class="breadcrumb-item active text-white">Thông tin tài khoản</li>
             </ol>
         </div>
         <!-- Single Page Header End -->
@@ -66,17 +67,27 @@
                     <!-- side bar start -->
                     <div class="col-lg-3">
                         <div class="col-lg-12"> <!-- categories -->
-                            <div class="mb-3">
-                                <h4>Thông tin người dùng</h4>
+                            <a href="#account" class="nav-link">
+                                <div class="mb-3">
+                                    <h4>Thông tin người dùng</h4>
+                                </div>
+                            </a>
+                        </div>
 
-                            </div>
+                        <div class="col-lg-12"> <!-- categories -->
+                            <a href="#order" class="nav-link">
+                                <div class="mb-3">
+                                    <h4>Quản lí đơn hàng</h4>
+                                </div>
+                            </a>
                         </div>
                     </div>
                     <!-- side bar end -->
 
                     <!-- main part start -->
                     <div class="col-lg-9">
-                        <div class="row g-4 justify-content-center">
+                        <!-- account tab start -->
+                        <div class="row g-4 justify-content-center content-tab" id="account">
                             <c:set var="account" value="${requestScope.account}"></c:set>
                                 <form id="userAccountForm" action="UserAccount" method="post"  onsubmit="return validateForm()">
                                     <table class="table">
@@ -122,32 +133,200 @@
                                 <button class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary" type="submit" >Cập nhật tài khoản</button>
                             </form>
                         </div>                
-                                           
-
+                        <!-- account tab end -->    
+                        <!-- order tab start -->
+                        <div class="row g-4 justify-content-center content-tab" id="order">
+                            <table class="table">
+                                <tr>
+                                    <th>Đơn hàng đang chờ xác nhận</th>
+                                    <td>
+                                        <c:if test="${empty waitingOrderList}">
+                                            <div>Bạn không có đơn hàng nào</div>
+                                        </c:if>
+                                        <c:if test="${not empty waitingOrderList}">
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Mã đơn hàng</th>
+                                                    <th>Ngày đặt hàng</th>
+                                                    <th>Xem chi tiết</th>
+                                                </tr>
+                                                <c:forEach items="${waitingOrderList}" var="w">
+                                                    <tr>
+                                                        <td>${w.orderId}</td>
+                                                        <td>${w.orderDate}</td>
+                                                        <td><a href="UserOrder?orderId=${w.orderId}">
+                                                                <i class="fa-solid fa-circle-info"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </table>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Đơn hàng đang được chuẩn bị</th>
+                                    <td>
+                                        <c:if test="${empty preparingOrderList}">
+                                            <div>Bạn không có đơn hàng nào</div>
+                                        </c:if>
+                                        <c:if test="${not empty preparingOrderList}">
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Mã đơn hàng</th>
+                                                    <th>Ngày đặt hàng</th>
+                                                    <th>Xem chi tiết</th>
+                                                </tr>
+                                                <c:forEach items="${preparingOrderList}" var="w">
+                                                    <tr>
+                                                        <td>${w.orderId}</td>
+                                                        <td>${w.orderDate}</td>
+                                                        <td><a href="UserOrder?orderId=${w.orderId}">
+                                                                <i class="fa-solid fa-circle-info"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </table>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Đơn hàng đang vận chuyển</th>
+                                    <td>
+                                        <c:if test="${empty shippingOrderList}">
+                                            <div>Bạn không có đơn hàng nào</div>
+                                        </c:if>
+                                        <c:if test="${not empty shippingOrderList}">
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Mã đơn hàng</th>
+                                                    <th>Ngày đặt hàng</th>
+                                                    <th>Xem chi tiết</th>
+                                                </tr>
+                                                <c:forEach items="${shippingOrderList}" var="w">
+                                                    <tr>
+                                                        <td>${w.orderId}</td>
+                                                        <td>${w.orderDate}</td>
+                                                        <td><a href="UserOrder?orderId=${w.orderId}">
+                                                                <i class="fa-solid fa-circle-info"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </table>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Đơn hàng đã hoàn thành</th>
+                                    <td>
+                                        <c:if test="${empty completedOrderList}">
+                                            <div>Bạn không có đơn hàng nào</div>
+                                        </c:if>
+                                        <c:if test="${not empty completedOrderList}">
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Mã đơn hàng</th>
+                                                    <th>Ngày đặt hàng</th>
+                                                    <th>Xem chi tiết</th>
+                                                </tr>
+                                                <c:forEach items="${completedOrderList}" var="w">
+                                                    <tr>
+                                                        <td>${w.orderId}</td>
+                                                        <td>${w.orderDate}</td>
+                                                        <td><a href="UserOrder?orderId=${w.orderId}">
+                                                                <i class="fa-solid fa-circle-info"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </table>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Đơn hàng đã hủy</th>
+                                    <td>
+                                        <c:if test="${empty canceledOrderList}">
+                                            <div>Bạn không có đơn hàng nào</div>
+                                        </c:if>
+                                        <c:if test="${not empty canceledOrderList}">
+                                            <table class="table">
+                                                <tr>
+                                                    <th>Mã đơn hàng</th>
+                                                    <th>Ngày đặt hàng</th>
+                                                    <th>Xem chi tiết</th>
+                                                </tr>
+                                                <c:forEach items="${canceledOrderList}" var="w">
+                                                    <tr>
+                                                        <td>${w.orderId}</td>
+                                                        <td>${w.orderDate}</td>
+                                                        <td><a href="UserOrder?orderId=${w.orderId}">
+                                                                <i class="fa-solid fa-circle-info"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </table>
+                                        </c:if>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <!-- order tab start -->
                     </div>
                 </div>
                 <!-- main part end -->
                 <!-- main part end -->
             </div>
         </div>
-    </div>
-</div>
-<!-- Fruits Shop End-->
+        <!-- Fruits Shop End-->
 
-<%@include file="footer.jsp" %>
+        <%@include file="footer.jsp" %>
 
-<!-- JavaScript Libraries -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/waypoints/waypoints.min.js"></script>
-<script src="lib/lightbox/js/lightbox.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/lightbox/js/lightbox.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-<!-- Template Javascript -->
-<script src="js/main.js"></script>
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
 
-<script>
+        <script>
+                                    document.addEventListener("DOMContentLoaded", function () {
+                                        const tabs = document.querySelectorAll('.nav-link');
+                                        const contentTabs = document.querySelectorAll('.content-tab');
+
+                                        // Ẩn tất cả các tab ngoại trừ tab đầu tiên
+                                        contentTabs.forEach((tab, index) => {
+                                            if (index === 0) {
+                                                tab.style.display = 'block';
+                                            } else {
+                                                tab.style.display = 'none';
+                                            }
+                                        });
+
+                                        // Thêm sự kiện click cho từng tab
+                                        tabs.forEach(tab => {
+                                            tab.addEventListener('click', function (event) {
+                                                event.preventDefault();
+
+                                                const targetId = this.getAttribute('href').substring(1);
+
+                                                // Ẩn tất cả các tab
+                                                contentTabs.forEach(contentTab => {
+                                                    contentTab.style.display = 'none';
+                                                });
+
+                                                // Hiển thị tab được chọn
+                                                document.getElementById(targetId).style.display = 'block';
+                                            });
+                                        });
+                                    });
                                     function validateForm() {
                                         let isValid = true;
 
@@ -259,6 +438,6 @@
                                                 .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
                                                 .join(' ');
                                     }
-</script>
-</body>
+        </script>
+    </body>
 </html>

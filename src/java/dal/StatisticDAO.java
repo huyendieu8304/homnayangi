@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import model.Ingredient;
 
 /**
  *
@@ -114,5 +115,60 @@ public class StatisticDAO extends DBContext {
         }
         return revenueList;
 
+    }
+    
+    public ArrayList<Ingredient> get6BestSellerProduct() {
+        ArrayList<Ingredient> ingredientList = new ArrayList<>();
+        String sql = "SELECT TOP 6\n"
+                + "    i.ingredient_id,\n"
+                + "    i.ingredient_name,\n"
+                + "    i.category_id,\n"
+                + "    i.subcategory_id,\n"
+                + "    i.unit,\n"
+                + "    i.quantity_per_unit,\n"
+                + "    i.price,\n"
+                + "    i.stock_quantity,\n"
+                + "    i.image_url,\n"
+                + "    SUM(od.quantity) AS TotalQuantitySold\n"
+                + "FROM\n"
+                + "    [dbo].[OrderDetail] od\n"
+                + "INNER JOIN\n"
+                + "    [dbo].[Ingredient] i ON od.ingredient_id = i.ingredient_id\n"
+                + "WHERE i.[state] = 1"
+                + "GROUP BY\n"
+                + "    i.ingredient_id,\n"
+                + "    i.ingredient_name,\n"
+                + "    i.category_id,\n"
+                + "    i.subcategory_id,\n"
+                + "    i.unit,\n"
+                + "    i.quantity_per_unit,\n"
+                + "    i.price,\n"
+                + "    i.stock_quantity,\n"
+                + "    i.image_url\n"
+                + "ORDER BY\n"
+                + "    TotalQuantitySold DESC;";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                int ingredientId = rs.getInt("ingredient_id");
+                String ingredientName = rs.getString("ingredient_name");
+                int categoryId = rs.getInt("category_id");
+                int subcategoryId = rs.getInt("subcategory_id");
+                String unit = rs.getString("unit");
+                float quantityPerUnit = rs.getFloat("quantity_per_unit");
+                BigDecimal price = rs.getBigDecimal("price");
+                int stockQuantity = rs.getInt("stock_quantity");
+                String imageUrl = rs.getString("image_url");
+
+                Ingredient i = new Ingredient(ingredientId, ingredientName,
+                        categoryId, subcategoryId, unit, quantityPerUnit,
+                        price, stockQuantity, imageUrl);
+                ingredientList.add(i);
+            }
+        } catch (Exception e) {
+        }
+
+        return ingredientList;
     }
 }

@@ -312,4 +312,50 @@ public class OrderDAO extends DBContext {
         }
 
     }
+    
+    public ArrayList<Order> getOrderByStatusOfaUser(String status, int accountId){
+        ArrayList<Order> list = new ArrayList<>();
+        String sql = "SELECT [order_id]\n"
+                + "      ,[account_id]\n"
+                + "      ,[receiver_fullname]\n"
+                + "      ,[receiver_phone_number]\n"
+                + "      ,[receiver_email]\n"
+                + "      ,[delivery_address]\n"
+                + "      ,[order_date]\n"
+                + "      ,[ship_date]\n"
+                + "      ,[customer_note]\n"
+                + "      ,[order_status]\n"
+                + "  FROM [dbo].[Order] WHERE account_id = ? AND order_status = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, accountId);
+            st.setString(2, status);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {                
+                String oId = rs.getString("order_id");
+                String receiverFullname = rs.getString("receiver_fullname");
+                String receiverPhoneNumber = rs.getString("receiver_phone_number");
+                String receiverEmail = rs.getString("receiver_email");
+                String deliveryAddress = rs.getString("delivery_address");
+                Date orderDateRaw = rs.getDate("order_date");
+                Timestamp orderDate = new Timestamp(orderDateRaw.getTime());
+                Date shipDateRaw = rs.getDate("ship_date");
+                Timestamp shipDate = null;
+                if (shipDateRaw != null) {
+                    shipDate = new Timestamp(shipDateRaw.getTime());
+                }
+                String customerNote = rs.getString("customer_note");
+                String oStatus = rs.getString("order_status");
+                
+                Order o = new Order(oId, accountId, receiverFullname,
+                        receiverPhoneNumber, receiverEmail, deliveryAddress, 
+                        orderDate, shipDate, customerNote, oStatus);
+                
+                list.add(o);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
